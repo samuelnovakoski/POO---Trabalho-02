@@ -1,12 +1,16 @@
-public abstract class JogoDados {
+public abstract class JogoDados implements  Estatistica{
     private int nDados;
     private String nomeJogo;
     private float saldo;
     private Dado dados[];
 
-    public JogoDados(String jogo, int n){
+    public JogoDados(){
+        nDados = 0;
+    }
+
+    public JogoDados(String jogo, int nDados){
         this.nomeJogo = jogo;
-        this.nDados = n;
+        this.nDados = nDados;
     }
 
     public void rolarDados(){
@@ -16,11 +20,17 @@ public abstract class JogoDados {
         }
     }
 
-    public Dado getDado(int i){
-        return dados[i];
+    public Dado[] getDados(){
+        return dados;
     }
 
-    public void teste(){
-        if(nomeJogo == "")
+    public int somarFacesSorteadas(Dado dados[]) {
+        int x = 0;
+        
+        for(int i = 0; i < nDados; i++){
+            x += dados[i].getSideUp();
+        }
+
+        return x;
     }
 }
