@@ -31,6 +31,9 @@ public class usaCampeonato {
                 case 'b': 
                     campeonato.removerJogador();
                     break;
+                case 'c':
+                    campeonato.iniciarCampeonato();
+                    break;
             //     case 'a': 
             //         //novo jogador
             //         campeonato.incluirJogador();

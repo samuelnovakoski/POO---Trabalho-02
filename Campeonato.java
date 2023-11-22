@@ -92,9 +92,20 @@ public class Campeonato {
 
     public void iniciarCampeonato(){
         if(qntJogadores > 0){
-            
+            int i;
+
+            for(i = 0; i < qntJogadores; i++){
+                if(jogadores[i] instanceof Humano){
+                    Humano h = (Humano) jogadores[i];
+
+                    int tipoJogo = h.escolherJogo();
+
+                    jogadores[i].jogarDados(tipoJogo);
+                }
+                else{
+                    Maquina m = (Maquina) jogadores[i];
+                }
+            }
         }
     }
-
-
 }
