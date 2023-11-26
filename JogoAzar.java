@@ -24,6 +24,8 @@ public class JogoAzar extends JogoDados{
             System.out.println("erro: " + e);
         }
 
+        System.out.println("Dados: " + toString());
+
         int x = somarFacesSorteadas(getDados());
 
         System.out.println("Resultado: " + x + "\n");

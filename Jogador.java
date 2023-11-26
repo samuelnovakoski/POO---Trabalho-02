@@ -27,7 +27,11 @@ public abstract class Jogador {
         return jogos;
     }
 
-    public int getJogo(){
+    public JogoDados getJogos(int pos){
+        return jogos[pos];
+    }
+
+    public int getNJogo(){
         return njogo;
     }
 
@@ -35,6 +39,19 @@ public abstract class Jogador {
         if(njogo < 10){
             if(tipoJogo == 1){
                 jogos[njogo] = new JogoGeneral();
+
+                if(njogo - 1 >= 0)
+                    jogos[njogo].setSaldo(jogos[njogo - 1].getSaldo());
+                else
+                    jogos[njogo].setSaldo(100);
+
+                if(jogos[njogo].getSaldo() > 0){
+                    jogos[njogo].rolarDados();
+
+                    JogoGeneral jogo = (JogoGeneral) jogos[njogo];
+
+                    System.out.println("Dados: " + jogo.toString());
+                }
             }
             else{
                 jogos[njogo] = new JogoAzar();
@@ -47,13 +64,11 @@ public abstract class Jogador {
                 if(jogos[njogo].getSaldo() > 0){
                     jogos[njogo].rolarDados();
 
-                    System.out.println("dados: " + jogos[njogo].toString());
+                    JogoAzar jogo = (JogoAzar) jogos[njogo];
 
-                    JogoAzar jogox = (JogoAzar) jogos[njogo];
+                    jogo.executarRegrasJogo();
 
-                    jogox.executarRegrasJogo();
-
-                    System.out.println("Saldo: " + jogox.getSaldo());
+                    System.out.println("Saldo: " + jogo.getSaldo());
                 }
                 else
                     System.out.println("o jogador nao tem saldo suficiente para fazer uma aposta.");

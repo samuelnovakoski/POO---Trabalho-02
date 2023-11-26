@@ -31,16 +31,16 @@ public class Humano extends Jogador implements JogarComoHumano{
         }catch(Exception e){
             System.out.println("Error: " + e.toString());
         }
-        return jogo;
+        return 1;
     }
-
-    
 
     public int escolherJogada(JogoGeneral jogo){
         Scanner scan = new Scanner(System.in);
         int jogada = -1;
 
         try{
+            System.out.print("Escolha uma jogada: ");
+            
             jogada = scan.nextInt();
             jogo.validarJogada(jogada);
         }catch(Exception e){

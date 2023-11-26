@@ -11,9 +11,9 @@ public class JogoGeneral extends JogoDados{
             valoresJogadas[i] = -1;
     }
 
-    public String toString(){
-        return "";
-    }
+    // public String toString(){
+    //     return "";
+    // }
 
     public int[] getJogadas(){
         return valoresJogadas;
@@ -30,24 +30,24 @@ public class JogoGeneral extends JogoDados{
                 
                 x = scanner.nextInt();
             }
-            // pontuarJogada(x);
+            pontuarJogada(x);
         } catch(java.util.InputMismatchException e){
             System.out.println("Insira apenas valores inteiros");
         }
     }
 
-    // public void pontuarJogada(int x){
-    //     resultado = 0;
+    public void pontuarJogada(int x){
+        resultado = 0;
 
-    //     switch(x){
-    //         case 1:
-    //             for(int i = 0; i < 5; i++)
-    //                 if(super.getDados(i).getSideUp() == 1)
-    //                     resultado += 1;
-    //     }
+        switch(x){
+            case 1:
+                for(int i = 0; i < 5; i++)
+                    if(getDados()[i].getSideUp() == 1)
+                        resultado += 1;
+        }
 
-    //     valoresJogadas[x] = resultado;
-    // }
+        valoresJogadas[x] = resultado;
+    }
 
 
 

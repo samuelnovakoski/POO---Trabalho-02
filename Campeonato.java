@@ -101,9 +101,14 @@ public class Campeonato {
                     int tipoJogo = h.escolherJogo();
 
                     jogadores[i].jogarDados(tipoJogo);
+
+                    if(tipoJogo == 1)
+                        h.escolherJogada((JogoGeneral) jogadores[i].getJogos(jogadores[i].getNJogo()));
+
                 }
                 else{
                     Maquina m = (Maquina) jogadores[i];
+                    m.aplicarEstrategia();
                 }
             }
         }
