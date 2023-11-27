@@ -1,61 +1,52 @@
-import java.util.Scanner;
-
 public class JogoAzar extends JogoDados{
-    private float valorAposta;
+    private int resultadoJogo;
 
     public JogoAzar(){
         super("JogoAzar", 2);
     }
 
     public void executarRegrasJogo(){
-        System.out.print("Insira o valor da aposta: ");
-        try{
-            float x;
-            do{
-                Scanner scan = new Scanner(System.in);
-                x = scan.nextFloat();
-
-                if(x <= getSaldo())
-                    valorAposta = x;
-                else
-                    System.out.println("Valor da aposta excede o saldo, insira um valor mais baixo.");
-            }while(x > getSaldo());
-        }catch(Exception e){
-            System.out.println("erro: " + e);
-        }
-
-        System.out.println("Dados: " + toString());
-
-        int x = somarFacesSorteadas(getDados());
-
-        System.out.println("Resultado: " + x + "\n");
-        if(x == 7 || x == 11){
-            System.out.println("Jogador ganhou");
-            setSaldo(getSaldo() + valorAposta);
-        }
-        else if(x == 2 || x == 3 || x == 12){
-            System.out.println("Jogador perdeu");
-            setSaldo(getSaldo() - valorAposta);
-        }
+        mostrarDados();
         
+        int soma = somarFacesSorteadas(getDados());
+
+        System.out.println("Resultado: " + soma + "\n");
+
+        if(soma == 7 || soma == 11){
+            System.out.println("Jogador ganhou");
+            resultadoJogo = 1;
+        }
+        else if(soma == 2 || soma == 3 || soma == 12){
+            System.out.println("Jogador perdeu");
+            resultadoJogo = 0;
+        }
         else{
             int valorBusca = 0;
+
             do{
-                valorBusca = x;
-                System.out.println("valor a buscar: " + x);
+                valorBusca = soma;
+                
+                System.out.println("Valor a buscar: " + soma);
+                
                 rolarDados();
                 System.out.println("Dados: " + toString());
-                x = somarFacesSorteadas(getDados());
-                System.out.println("Resultado: " + x + "\n");
-                if(x == valorBusca){
-                    System.out.println("jogador ganhou");
-                    setSaldo(getSaldo() + valorAposta);
+
+                soma = somarFacesSorteadas(getDados());
+                System.out.println("Resultado: " + soma);
+
+                if(soma == valorBusca){
+                    System.out.println("Jogador ganhou");
+                    resultadoJogo = 1;
                 }
-                else if(x == 2 || x == 3 || x == 12){
-                    setSaldo(getSaldo() - valorAposta);
+                else if(soma == 2 || soma == 3 || soma == 12){
                     System.out.println("Jogador perdeu");
+                    resultadoJogo = 0;
                 }
-            }while(x != valorBusca && x != 2 && x != 3 && x != 12);
+            }while(soma != valorBusca && soma != 2 && soma != 3 && soma != 12);
         }
-    } 
+    }
+
+    public int getResultado(){
+        return resultadoJogo;
+    }
 }

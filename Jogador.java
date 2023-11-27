@@ -1,16 +1,22 @@
 import java.util.Scanner;
 
-public abstract class Jogador {
+public abstract class Jogador{
     private String nome;
-    private JogoDados[] jogos = new JogoDados[10];
-    private int njogo = 0;
+    private JogoDados[] jogos;
+    private int nJogo;
+    private float saldo;
 
     public Jogador(){
         setNome();
+        jogos = new JogoDados[10];
+        nJogo = 0;
+        saldo = 100.00f;
     }
 
     public Jogador(String nome){
         this.nome = nome;
+        jogos = new JogoDados[10];
+        nJogo = 0;
     }
 
     public void setNome(){
@@ -23,64 +29,42 @@ public abstract class Jogador {
         return nome;
     }
 
+    public JogoDados getJogo(int pos){
+        return jogos[pos];
+    }
+
     public JogoDados[] getJogos(){
         return jogos;
     }
 
-    public JogoDados getJogos(int pos){
-        return jogos[pos];
+    public int getNJogo(){
+        return nJogo;
     }
 
-    public int getNJogo(){
-        return njogo;
+    public void setNJogo(int nJogo){
+        this.nJogo = nJogo;
+    }
+
+    public void setJogo(JogoDados jogo, int pos){
+        jogos[pos] = jogo;
+    }
+
+    public float getSaldo(){
+        return saldo;
+    }
+
+    public void setSaldo(float novoSaldo){
+        this.saldo = novoSaldo;
     }
 
     public void jogarDados(int tipoJogo){
-        if(njogo < 10){
-            if(tipoJogo == 1){
-                jogos[njogo] = new JogoGeneral();
-
-                if(njogo - 1 >= 0)
-                    jogos[njogo].setSaldo(jogos[njogo - 1].getSaldo());
-                else
-                    jogos[njogo].setSaldo(100);
-
-                if(jogos[njogo].getSaldo() > 0){
-                    jogos[njogo].rolarDados();
-
-                    JogoGeneral jogo = (JogoGeneral) jogos[njogo];
-
-                    System.out.println("Dados: " + jogo.toString());
-                }
-            }
-            else{
-                jogos[njogo] = new JogoAzar();
-
-                if(njogo - 1 >= 0)
-                    jogos[njogo].setSaldo(jogos[njogo - 1].getSaldo());
-                else
-                    jogos[njogo].setSaldo(100);
-
-                if(jogos[njogo].getSaldo() > 0){
-                    jogos[njogo].rolarDados();
-
-                    JogoAzar jogo = (JogoAzar) jogos[njogo];
-
-                    jogo.executarRegrasJogo();
-
-                    System.out.println("Saldo: " + jogo.getSaldo());
-                }
-                else
-                    System.out.println("o jogador nao tem saldo suficiente para fazer uma aposta.");
-            }
-
-            njogo++;
-        }
+        if(tipoJogo == 1)
+            if(jogos[nJogo] == null)
+                jogos[nJogo] = new JogoGeneral();
         else
-            System.out.println("Numero maximo de jogos ja foi atingido.");
-    }
-
-    // public void mostrarJogadasExecutadas(){
+            if(jogos[nJogo] == null)
+                jogos[nJogo] = new JogoAzar();
         
-    // }
+        jogos[nJogo].rolarDados();
+    }
 }

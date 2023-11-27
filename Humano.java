@@ -4,14 +4,14 @@ public class Humano extends Jogador implements JogarComoHumano{
     private String cpf;
     private String agencia;
     private String conta;
-    private int numeroBanco;
+    private int numBanco;
 
-    public Humano(String nome, String cpf, String agencia, String conta, int numeroBanco){
+    public Humano(String nome, String cpf, String agencia, String conta, int numBanco){
         super(nome);
         this.cpf = cpf;
         this.agencia = agencia;
         this.conta = conta;
-        this.numeroBanco = numeroBanco;
+        this.numBanco = numBanco;
     }
 
     public int escolherJogo(){
@@ -20,18 +20,18 @@ public class Humano extends Jogador implements JogarComoHumano{
 
         try{
             do{
-                System.out.println("Escolha o jogo que deseja jogar: [1 = Jogo General | 2 = Jogo de azar] ");
+                System.out.print("Escolha o jogo que deseja jogar [1 = Jogo General || 2 = Jogo Azar]: ");
                 jogo = scan.nextInt();
-                
+
                 if(jogo == 1 || jogo == 2)
                     return jogo;
                 else
-                    System.out.println("Por favor escolha um dos jogos existentes [1 = Jogo General | 2 = Jogo de azar] ");
+                    System.out.print("Jogo invalido!\nPor favor escolha um dos jogos validos [1 = Jogo Genera || 2 = Jogo Azar]: ");
             }while(jogo != 1 && jogo != 2);
         }catch(Exception e){
-            System.out.println("Error: " + e.toString());
+            System.out.println("Erro: " + e);
         }
-        return 1;
+        return jogo;
     }
 
     public int escolherJogada(JogoGeneral jogo){
@@ -40,12 +40,17 @@ public class Humano extends Jogador implements JogarComoHumano{
 
         try{
             System.out.print("Escolha uma jogada: ");
-            
+
             jogada = scan.nextInt();
             jogo.validarJogada(jogada);
+            jogo.mostrarJogada();
+            return 1;
         }catch(Exception e){
-            System.out.println("erro: " + e.toString());
+            System.out.println("Erro: " + e);
         }
-        return jogada;
-    }  
+
+        return 0;
+    }
+
+    
 }
