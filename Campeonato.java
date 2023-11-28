@@ -1,13 +1,8 @@
 import java.util.Scanner;
 
 public class Campeonato {
-    private Jogador[] jogadores;
-    private int qntJogadores;
-
-    public Campeonato(){
-        jogadores = new Jogador[10];
-        qntJogadores = 0;
-    }
+    private Jogador[] jogadores = new Jogador[10];
+    private int qntJogadores = 0;
 
     public void incluirJogador(){
         Scanner scan = new Scanner(System.in);
@@ -18,88 +13,81 @@ public class Campeonato {
         if(qntJogadores < 10){
             for(int i = 0; i < jogadores.length; i++)
                 if(jogadores[i] == null && cont == 0){
-                    System.out.print("Insira o nome do jogador: ");
+                    System.out.println("Insira o nome do jogador: ");
                     nome = scan.nextLine();
-
                     try{
                         do{
-                            System.out.print("Insira o tipo do jogador [H = Humano || M = maquina]: ");
-                            aux = scan.nextLine();
+                            System.out.println("Insira o tipo do jogador [H para Humano ou M para maquina]: ");
+                            aux = scan.nextLine().toUpperCase();
 
-                            if(aux.charAt(0) == 'h'|| aux.charAt(0) == 'H'){
-                                String cpf, agencia, conta;
-                                int numBanco;
+                            if(aux.charAt(0) == 'H'){
+                                String cpf;
+                                String agencia;
+                                String conta;
+                                int numeroBanco;
 
                                 System.out.print("Insira o CPF: ");
                                 cpf = scan.nextLine();
-                                
                                 System.out.print("Insira a agencia: ");
                                 agencia = scan.nextLine();
-
                                 System.out.print("Insira a conta: ");
                                 conta = scan.nextLine();
-
                                 System.out.print("Insira o numero do banco: ");
-                                numBanco = scan.nextInt();
+                                numeroBanco = scan.nextInt();
 
-                                jogadores[i] = new Humano(nome, cpf, agencia, conta, numBanco);
-                                jogadores[i].setSaldo(100);
+                                jogadores[i] = new Humano( nome, cpf, agencia, conta, numeroBanco);
                                 qntJogadores++;
                             }
-                            else if(aux.charAt(0) == 'm'){
+                            else if(aux.charAt(0) == 'M'){
                                 jogadores[i] = new Maquina(nome);
-                                jogadores[i].setSaldo(100);
                                 qntJogadores++;
                             }
                             else
-                                System.out.println("Tipo de jogador invalido!\nPor favor insira um tipo valido [H = Humano || M = Maquina]: ");
-                        }while(aux.charAt(0) != 'h' && aux.charAt(0) != 'H' && aux.charAt(0) != 'm');
-                        
+                                System.out.println("Tipo inserido invalido! Por favor insira um tipo valido.");
+                        }while(aux.charAt(0) != 'H' && aux.charAt(0) != 'M');
                         cont++;
-                        System.out.println("\nJogador " + nome + " adicionado com sucesso");
                     }catch(Exception e){
-                        System.out.println("Erro: " + e);
+                        System.out.println("erro: " + e);
                     }
                 }
         }else
-            System.out.println("Numero maximo de jogadores atingido, nao e possivel adicionar novos jogadores.");
+            System.out.println("Numero maximo de jogadores ja foi atingido, nao e possivel adicionar novos jogadores");
     }
 
     public void removerJogador(){
         if(qntJogadores > 0){
-            Scanner scan = new Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
+        listaJogadores();
+        System.out.print("\nInforme o nome do jogador que deseja remover: ");
+        
+        String nome = scan.nextLine();
+        int removido = 0;
 
-            listaJogadores();
+        for(int i = 0; i < qntJogadores; i++)
+            if(jogadores[i].getNome().equals(nome)){
+                for(int j = i; j < qntJogadores; j++)
+                    jogadores[j] = jogadores[j + 1];
+                
+                jogadores[qntJogadores - 1] = null;
+                qntJogadores--;
+                removido++;
 
-            System.out.print("\nInsira o nome do jogador que deseja remover: ");
-            String nome = scan.nextLine();
-            int removido = 0;
+                System.out.println("\nJogador " + nome + " foi removido com sucesso!\n");
 
-            for(int i = 0; i < qntJogadores; i++)
-                if(jogadores[i].getNome().equals(nome)){
-                    for(int j = i; j < qntJogadores; j++)
-                        jogadores[j] = jogadores[j + 1];
-                    
-                    jogadores[qntJogadores - 1] = null;
-                    qntJogadores--;
-                    removido++;
-
-                    System.out.println("\nJogador " + nome + " foi removido com sucesso!");
-                }
+            }
             if(removido == 0)
                 System.out.println("\nNao foi possivel encontrar o jogador " + nome);
-        }
-        else
-            System.out.println("Nao existem jogadores no campeonato no momento.");
+    }
+    else
+        System.out.println("Nao existem jogadores cadastrados no momento!");
     }
 
     public void listaJogadores(){
-        for(int i = 0; i < qntJogadores; i++){
+        for(int i = 0; i < qntJogadores; i++)
             if(i < qntJogadores - 1)
                 System.out.print(jogadores[i].getNome() + " - ");
             else
                 System.out.println(jogadores[i].getNome());
-        }
     }
 
     public void iniciarCampeonato(){
@@ -108,80 +96,59 @@ public class Campeonato {
 
             for(i = 0; i < qntJogadores; i++){
                 if(jogadores[i] instanceof Humano){
-
                     Humano h = (Humano) jogadores[i];
 
                     int tipoJogo = h.escolherJogo();
 
-                    if(tipoJogo == 1)
-                        jogoG(h);
-                    else{
-                        jogoA(h);
-                    }
+                    jogadores[i].jogarDados(tipoJogo);
+                }
+                else{
+                    Maquina m = (Maquina) jogadores[i];
                 }
             }
         }
     }
 
-    public void jogoG(Humano jogador){
-        JogoGeneral novoJogo = new JogoGeneral();
-
-        jogador.setJogo(novoJogo, jogador.getNJogo());
-
-        fazerAposta(jogador, novoJogo);
-
-        for(int i = 0; i < 13; i++){
-            System.out.println("Jogadas: " + i + "\n");
-            jogador.jogarDados(1);
-            System.out.println("Dados: " + novoJogo.toString());
-            jogador.escolherJogada(novoJogo);
-        }
-
-        jogador.setNJogo(jogador.getNJogo() + 1);
-    }
-
-    public void jogoA(Humano jogador){
-        JogoAzar novoJogo = new JogoAzar();
-
-        jogador.setJogo(novoJogo, jogador.getNJogo());
-        fazerAposta(jogador, novoJogo);
-
-        jogador.jogarDados(2); 
-        novoJogo.executarRegrasJogo();
-        
-        if(novoJogo.getResultado() == 1){
-            jogador.setSaldo(jogador.getSaldo() + novoJogo.getAposta());
-        }
-        else if(novoJogo.getResultado() == 0){
-            jogador.setSaldo(jogador.getSaldo() - novoJogo.getAposta());
-        }
-
-        System.out.println("\nSaldo: R$" + jogador.getSaldo());
-
-        jogador.setNJogo(jogador.getNJogo() + 1);
-
-    }
-
-    public void fazerAposta(Jogador jogador, JogoDados jogo){
+    public void imprimirSaldo(){
         Scanner scan = new Scanner(System.in);
+        String aux;
+        int cont = 0;
 
-        System.out.println("Saldo disponivel: R$" + jogador.getSaldo());
-        System.out.print("Insira o valor que deseja apostar: R$");
-        try{
-            float aposta;
+        if(qntJogadores > 0){
+            System.out.println("\nInsira o tipo desejado para imprimir os saldos [H para Humano, M para maquina ou T para Todos]: ");
+            aux = scan.nextLine().toUpperCase();
 
-            do{
-                aposta = scan.nextFloat();
-
-                if(aposta <= jogador.getSaldo() && aposta > 0)
-                    jogo.setAposta(aposta);
-                else if(aposta <= 0)
-                    System.out.println("Aposta invalida, o valor da aposta deve ser maior que 0!");
-                else
-                    System.out.println("Valor da aposta excedo o saldo suficiente. Insira um valor mais baixo.");
-            }while(aposta > jogador.getSaldo() && aposta <= 0);
-        }catch(Exception e){
-            System.out.println("Erro: " + e);
+            for(int i = 0; i < qntJogadores; i++){
+                if(aux.charAt(0) == 'H'){
+                    if(jogadores[i] instanceof Humano){
+                        System.out.println("\nJogador [H]: " + jogadores[i].getNome() + ", Saldo: " + jogadores[i].getSaldo());
+                        cont++;
+                    }
+                    else{
+                        if(cont == 0 && i == qntJogadores - 1)
+                            System.out.println("\nNao existem jogadores humanos registrados");
+                    }
+                }
+                else if(aux.charAt(0) == 'M'){
+                    if(jogadores[i] instanceof Maquina){
+                        System.out.println("\nJogador [M]: " + jogadores[i].getNome() + ", Saldo: " + jogadores[i].getSaldo());
+                        cont++;
+                    }
+                    else{
+                        if(cont == 0 && i == qntJogadores - 1)
+                            System.out.println("\nNao existem jogadores maquina registrados");
+                    }
+                }
+                else if(aux.charAt(0) == 'T'){
+                    System.out.println("\nJogador [" + aux + "]: " + jogadores[i].getNome() + ", Saldo: " + jogadores[i].getSaldo());
+                }
+                else{
+                    System.out.println("\nTipo invalido, digite novamente\n");
+                }
+            }
+        }
+        else{
+            System.out.println("\nNumero de jogadores insuficiente para executar esse comando!\n");
         }
     }
 }

@@ -16,10 +16,12 @@ public class usaCampeonato {
             System.out.println("|  a - Adicionar Jogador                     |");
             System.out.println("|  b - Remover Jogador                       |");
             System.out.println("|  c - Executar jogada                       |");
-            System.out.println("|  d - Mostrar Cartela de resultados         |");
-            System.out.println("|  e - Gravar dados do campeonato em arquivo |");
-            System.out.println("|  f - Ler dados do campeonato de arquivo    |");
-            System.out.println("|  g - Sair da aplicacao                     |");
+            System.out.println("|  d - Imprimir saldo(s)                     |");
+            System.out.println("|  e - Imprimir extratos dos resultados      |");
+            System.out.println("|  f - Imprimir estatisticas                 |");
+            System.out.println("|  g - Gravar dados do campeonato em arquivo |");
+            System.out.println("|  h - Ler dados do campeonato de arquivo    |");
+            System.out.println("|  i - Sair da aplicacao                     |");
             System.out.println("|____________________________________________|");
             System.out.print(" Escolha uma opcao: ");
             opc = scanner.nextLine().charAt(0);
@@ -33,6 +35,9 @@ public class usaCampeonato {
                     break;
                 case 'c':
                     campeonato.iniciarCampeonato();
+                    break;
+                case 'd':
+                    campeonato.imprimirSaldo();;
                     break;
             //     case 'a': 
             //         //novo jogador
@@ -66,6 +71,6 @@ public class usaCampeonato {
             //         System.out.println("Opcao invalida!");
             // }
             }
-        }while(opc != 'g');
+        }while(opc != 'i');
     }
 }
