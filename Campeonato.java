@@ -137,6 +137,19 @@ public class Campeonato {
             jogador.escolherJogada(novoJogo);
         }
 
+        novoJogo.ganhou();
+
+        if(novoJogo.getGanhou() == true){
+            jogador.setSaldo(jogador.getSaldo() + novoJogo.getAposta());
+            System.out.println("Parabens voce ganhou!");
+            System.out.println(jogador.getSaldo());
+        }
+        else{
+            jogador.setSaldo(jogador.getSaldo() - novoJogo.getAposta());
+            System.out.println("Que pena, voce perdeu!");
+            System.out.println(jogador.getSaldo());
+        }
+
         jogador.setNJogo(jogador.getNJogo() + 1);
     }
 
