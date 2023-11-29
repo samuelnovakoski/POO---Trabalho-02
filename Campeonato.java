@@ -108,71 +108,60 @@ public class Campeonato {
 
             for(i = 0; i < qntJogadores; i++){
                 if(jogadores[i] instanceof Humano){
-
                     Humano h = (Humano) jogadores[i];
 
                     int tipoJogo = h.escolherJogo();
 
-                    if(tipoJogo == 1)
-                        jogoG(h);
+                    if(tipoJogo == 1){
+                        JogoGeneral novoJogo = new JogoGeneral();
+
+                        h.setJogo(novoJogo, h.getNJogo());
+                        fazerAposta(h, novoJogo);
+
+                        for(int j = 0; j < 13; j++){
+                            System.out.println("Jogadas: " + j + "\n");
+                            h.jogarDados(1);
+                            System.out.println("Dados: " + novoJogo.toString());
+                            h.escolherJogada(novoJogo);
+                        }
+
+                        novoJogo.ganhou();
+                    
+                        if(novoJogo.getGanhou() == true){
+                            h.setSaldo(h.getSaldo() + novoJogo.getAposta());
+                            System.out.println("Parabens voce ganhou!");
+                            System.out.println(h.getSaldo());
+                        }
+                        else{
+                            h.setSaldo(h.getSaldo() - novoJogo.getAposta());
+                            System.out.println("Que pena, voce perdeu!");
+                            System.out.println(h.getSaldo());
+                        }
+
+                        h.setNJogo(h.getNJogo() + 1);
+                    }
                     else{
-                        jogoA(h);
+                        JogoAzar novoJogo = new JogoAzar();
+
+                        h.setJogo(novoJogo, h.getNJogo());
+                        fazerAposta(h, novoJogo);
+
+                        h.jogarDados(2); 
+                        novoJogo.executarRegrasJogo();
+                        
+                        if(novoJogo.getResultado() == 1){
+                            h.setSaldo(h.getSaldo() + novoJogo.getAposta());
+                        }
+                        else if(novoJogo.getResultado() == 0){
+                            h.setSaldo(h.getSaldo() - novoJogo.getAposta());
+                        }
+
+                        System.out.println("\nSaldo: R$" + h.getSaldo());
+                        h.setNJogo(h.getNJogo() + 1);
                     }
                 }
             }
         }
-    }
-
-    public void jogoG(Humano jogador){
-        JogoGeneral novoJogo = new JogoGeneral();
-
-        jogador.setJogo(novoJogo, jogador.getNJogo());
-
-        fazerAposta(jogador, novoJogo);
-
-        for(int i = 0; i < 13; i++){
-            System.out.println("Jogadas: " + i + "\n");
-            jogador.jogarDados(1);
-            System.out.println("Dados: " + novoJogo.toString());
-            jogador.escolherJogada(novoJogo);
-        }
-
-        novoJogo.ganhou();
-
-        if(novoJogo.getGanhou() == true){
-            jogador.setSaldo(jogador.getSaldo() + novoJogo.getAposta());
-            System.out.println("Parabens voce ganhou!");
-            System.out.println(jogador.getSaldo());
-        }
-        else{
-            jogador.setSaldo(jogador.getSaldo() - novoJogo.getAposta());
-            System.out.println("Que pena, voce perdeu!");
-            System.out.println(jogador.getSaldo());
-        }
-
-        jogador.setNJogo(jogador.getNJogo() + 1);
-    }
-
-    public void jogoA(Humano jogador){
-        JogoAzar novoJogo = new JogoAzar();
-
-        jogador.setJogo(novoJogo, jogador.getNJogo());
-        fazerAposta(jogador, novoJogo);
-
-        jogador.jogarDados(2); 
-        novoJogo.executarRegrasJogo();
-        
-        if(novoJogo.getResultado() == 1){
-            jogador.setSaldo(jogador.getSaldo() + novoJogo.getAposta());
-        }
-        else if(novoJogo.getResultado() == 0){
-            jogador.setSaldo(jogador.getSaldo() - novoJogo.getAposta());
-        }
-
-        System.out.println("\nSaldo: R$" + jogador.getSaldo());
-
-        jogador.setNJogo(jogador.getNJogo() + 1);
-
     }
 
     public void fazerAposta(Jogador jogador, JogoDados jogo){
