@@ -119,7 +119,6 @@ public class Campeonato {
                         fazerAposta(h, novoJogo);
 
                         for(int j = 0; j < 13; j++){
-                            System.out.println("Jogadas: " + j + "\n");
                             h.jogarDados(1);
                             System.out.println("Dados: " + novoJogo.toString());
                             h.escolherJogada(novoJogo);
@@ -159,6 +158,11 @@ public class Campeonato {
                         System.out.println("\nSaldo: R$" + h.getSaldo());
                         h.setNJogo(h.getNJogo() + 1);
                     }
+                }
+                else{
+                    Maquina m = (Maquina) jogadores[i];
+                    
+                    m.aplicarEstrategia();
                 }
             }
         }

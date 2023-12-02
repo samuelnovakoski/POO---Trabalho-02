@@ -223,6 +223,9 @@ public class JogoGeneral extends JogoDados{
             soma12 += getJogadas(i);
         }
 
+        System.out.println("Soma das 12 jogadas: " + soma12);
+        System.out.println("Dobro da ultima jogada: " + getJogadas(12) * 2);
+
         if(soma12 > (valoresJogadas[12] * 2))
             ganhou = true;
         else

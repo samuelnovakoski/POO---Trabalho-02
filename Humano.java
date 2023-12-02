@@ -51,6 +51,4 @@ public class Humano extends Jogador implements JogarComoHumano{
 
         return 0;
     }
-
-    
 }
