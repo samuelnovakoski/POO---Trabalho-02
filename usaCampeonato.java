@@ -39,6 +39,9 @@ public class usaCampeonato {
                 case 'd':
                     campeonato.imprimirSaldo();;
                     break;
+                case 'e':
+                    campeonato.imprimirSaldo();
+                    break;
             //     case 'a': 
             //         //novo jogador
             //         campeonato.incluirJogador();

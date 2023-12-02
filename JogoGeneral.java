@@ -54,10 +54,8 @@ public class JogoGeneral extends JogoDados{
                 break;
             case 2:
                 for(int i = 0; i < 5; i++)
-                    if(getDados()[i].getSideUp() == 2){
-                        System.out.println("voce escolhou a jogada 2");
+                    if(getDados()[i].getSideUp() == 2)
                         resultado += 2;
-                    }
                 break;
             case 3:
                 for(int i = 0; i < 5; i++)

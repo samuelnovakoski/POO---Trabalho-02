@@ -26,8 +26,8 @@ public class Maquina extends Jogador implements JogarComoMaquina{
             else
                 valorAposta = getSaldo();
 
-            System.out.println("Saldo da maquina " + String.format("%.2f", getSaldo()));
-            System.out.println("Valor apostado pela maquina " + String.format("%.2f", valorAposta));
+            System.out.println("Saldo " + getNome() + " R$" + String.format("%.2f", getSaldo()));
+            System.out.println("Valor apostado pelo jogador " + getNome() + " R$" + String.format("%.2f", valorAposta));
 
             int j = 1;
             for(int i = 0; i < 13; i++){
@@ -60,12 +60,16 @@ public class Maquina extends Jogador implements JogarComoMaquina{
 
             setJogo(jogoA, getNJogo());
 
-            Random aposta = new Random();
-            valorAposta = aposta.nextFloat() * getSaldo();
-            valorAposta = Math.min(valorAposta, getSaldo());
+            if(getSaldo() >= 10){
+                Random aposta = new Random();
+                valorAposta = aposta.nextFloat() * getSaldo();
+                valorAposta = Math.min(valorAposta, getSaldo());
+            }
+            else
+                valorAposta = getSaldo();
 
-            System.out.println("Saldo da maquina " + String.format("%.2f", getSaldo()));
-            System.out.println("Valor apostado pela maquina " + String.format("%.2f", valorAposta));
+            System.out.println("Saldo " + getNome() + " R$" + String.format("%.2f", getSaldo()));
+            System.out.println("Valor apostado pelo jogador " + getNome() + " R$" + String.format("%.2f", valorAposta));
 
             jogarDados(2);
             jogoA.executarRegrasJogo();

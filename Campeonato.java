@@ -184,8 +184,8 @@ public class Campeonato {
                 else if(aposta <= 0)
                     System.out.println("Aposta invalida, o valor da aposta deve ser maior que 0!");
                 else
-                    System.out.println("Valor da aposta excedo o saldo suficiente. Insira um valor mais baixo.");
-            }while(aposta > jogador.getSaldo() && aposta <= 0);
+                    System.out.println("Valor da aposta excede o saldo suficiente. Insira um valor mais baixo.");
+            }while(aposta > jogador.getSaldo() || aposta <= 0);
         }catch(Exception e){
             System.out.println("Erro: " + e);
         }
@@ -193,44 +193,49 @@ public class Campeonato {
 
     public void imprimirSaldo(){
         Scanner scan = new Scanner(System.in);
-        String aux;
+        String aux = "";
         int cont = 0;
 
         if(qntJogadores > 0){
             System.out.println("\nInsira o tipo desejado para imprimir os saldos [H para Humano, M para maquina ou T para Todos]: ");
-            aux = scan.nextLine().toUpperCase();
+            try{
+                do{
+                    aux = scan.nextLine().toUpperCase();
+                    if(aux.charAt(0) != 'H' && aux.charAt(0) != 'M' && aux.charAt(0)  != 'T')
+                        System.out.println("\nTipo invalido, digite novamente\n");
+                }while(aux.charAt(0) != 'H' && aux.charAt(0) != 'M' && aux.charAt(0)  != 'T');
+            }catch(Exception e){
+                System.out.println("\nError: " + e);
+            }
 
             for(int i = 0; i < qntJogadores; i++){
                 if(aux.charAt(0) == 'H'){
                     if(jogadores[i] instanceof Humano){
-                        System.out.println("\nJogador [H]: " + jogadores[i].getNome() + ", Saldo: " + jogadores[i].getSaldo());
+                        System.out.println("\nJogador [H]: " + jogadores[i].getNome() + ", Saldo: " + String.format("%.2f", jogadores[i].getSaldo()));
                         cont++;
                     }
-                    else{
+                    else
                         if(cont == 0 && i == qntJogadores - 1)
                             System.out.println("\nNao existem jogadores humanos registrados");
-                    }
                 }
                 else if(aux.charAt(0) == 'M'){
                     if(jogadores[i] instanceof Maquina){
-                        System.out.println("\nJogador [M]: " + jogadores[i].getNome() + ", Saldo: " + jogadores[i].getSaldo());
+                        System.out.println("\nJogador [M]: " + jogadores[i].getNome() + ", Saldo: " + String.format("%.2f", jogadores[i].getSaldo()));
                         cont++;
                     }
-                    else{
+                    else
                         if(cont == 0 && i == qntJogadores - 1)
                             System.out.println("\nNao existem jogadores maquina registrados");
-                    }
                 }
                 else if(aux.charAt(0) == 'T'){
-                    System.out.println("\nJogador [" + aux + "]: " + jogadores[i].getNome() + ", Saldo: " + jogadores[i].getSaldo());
-                }
-                else{
-                    System.out.println("\nTipo invalido, digite novamente\n");
+                    if(jogadores[i] instanceof Humano)
+                        System.out.println("\nJogador [H]: " + jogadores[i].getNome() + ", Saldo: " + String.format("%.2f", jogadores[i].getSaldo()));
+                    else
+                        System.out.println("\nJogador [M]: " + jogadores[i].getNome() + ", Saldo: " + String.format("%.2f", jogadores[i].getSaldo()));
                 }
             }
         }
-        else{
+        else
             System.out.println("\nNumero de jogadores insuficiente para executar esse comando!\n");
-        }
     }
 }
