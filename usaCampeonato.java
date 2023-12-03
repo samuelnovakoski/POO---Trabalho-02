@@ -40,7 +40,7 @@ public class usaCampeonato {
                     campeonato.imprimirSaldo();;
                     break;
                 case 'e':
-                    campeonato.imprimirSaldo();
+                    campeonato.imprimirExtratos();
                     break;
                 // case 'f':
                 //     campeonato.estatisticas();

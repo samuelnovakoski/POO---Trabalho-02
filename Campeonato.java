@@ -251,6 +251,269 @@ public class Campeonato implements Serializable{
             System.out.println("\nNumero de jogadores insuficiente para executar esse comando!\n");
     }
 
+    public void imprimirExtratos(){
+        Scanner scan = new Scanner(System.in);
+        String tipoJogo = "", tipoJogador = "";
+        int contJ = 0, contG = 0;
+
+        if(qntJogadores > 0){
+            System.out.println("\nPara qual tipo de jogo deseja imprimir os extratos? [G para Jogo General, A para Jogo de Azar ou T para Todos]: ");
+            try{
+                do{
+                    tipoJogo = scan.nextLine().toUpperCase();
+                    if(tipoJogo.charAt(0) != 'G' && tipoJogo.charAt(0) != 'A' && tipoJogo.charAt(0) != 'T')
+                        System.out.println("\nJogo invalido, digite novamente\n");
+                }while(tipoJogo.charAt(0) != 'G' && tipoJogo.charAt(0) != 'A' && tipoJogo.charAt(0) != 'T');
+            }catch(Exception e){
+                System.out.println("\nError: " + e);
+            }
+
+            System.out.println("\nPara qual tipo de jogador deseja imprimir os extratos? [H para Humano, M para Maquina ou T para Todos]: ");
+            try{
+                do{
+                    tipoJogador = scan.nextLine().toUpperCase();
+                    if(tipoJogador.charAt(0) != 'H' && tipoJogador.charAt(0) != 'M' && tipoJogador.charAt(0) != 'T')
+                        System.out.println("\nJogo invalido, digite novamente\n");
+                }while(tipoJogador.charAt(0) != 'H' && tipoJogador.charAt(0) != 'M' && tipoJogador.charAt(0) != 'T');
+            }catch(Exception e){
+                System.out.println("\nError: " + e);
+            }
+
+            for(int i = 0; i < qntJogadores; i++){
+                if(tipoJogador.charAt(0) == 'H'){
+                    if(jogadores[i] instanceof Humano){
+                        System.out.println("Jogador [H]: " + jogadores[i].getNome());
+                        contJ++;
+                        for(int j = 0; j < jogadores[i].getNJogo(); j++){
+                            if(tipoJogo.charAt(0) == 'G'){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                    JogoGeneral auxG = (JogoGeneral) jogadores[i].getJogo(j);
+                                    if(auxG.getGanhou()){
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da jogada: Ganhou");
+                                        contG++;
+                                    }
+                                    else{
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da jogada: Perdeu");
+                                        contG++;
+                                    }
+                                }
+                                else
+                                    if(contG == 0 && j == jogadores[i].getNJogo() - 1)
+                                        System.out.println("\nO jogador nao fez nenhum Jogo General");
+                            }
+                            else if(tipoJogo.charAt(0) == 'A'){
+                                if(jogadores[i].getJogo(j) instanceof JogoAzar){
+                                    JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
+                                    if(auxA.getResultado() == 1){
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da Jogada: Ganhou");
+                                        contG++;
+                                    }
+                                    else{
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da Jogada: Perdeu");
+                                        contG++;
+                                    }
+                                }
+                                else
+                                    if(contG == 0 && j == jogadores[i].getNJogo() - 1)
+                                        System.out.println("\nO jogador nao fez nenhum Jogo de Azar");
+                            }
+                            else if(tipoJogo.charAt(0) == 'T'){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                    JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j);
+                                    if(auxG.getGanhou())
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da Jogada: Ganhou");
+                                    else
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da jogada: Perdeu");
+                                }
+                                else{
+                                    JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
+                                    if(auxA.getResultado() == 1)
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da Jogada: Ganhou");
+                                    else
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da jogada: Perdeu");
+                                }
+                            }
+                        }
+                    }
+                    else
+                        if(contJ == 0 && i == qntJogadores - 1)
+                            System.out.println("\nNao existem jogadores humanos registrados");
+                }
+                else if(tipoJogador.charAt(0) == 'M'){
+                    if(jogadores[i] instanceof Maquina){
+                        System.out.println("Jogador [M]: " + jogadores[i].getNome());
+                        contJ++;
+                        for(int j = 0; j < jogadores[i].getNJogo(); j++){
+                            if(tipoJogo.charAt(0) == 'G'){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                    JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j); 
+                                    if(auxG.getGanhou()){
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da jogada: Ganhou");
+                                        contG++;
+                                    }
+                                    else{
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da jogada: Perdeu");
+                                        contG++;
+                                    }
+                                }
+                                else
+                                    if(contG == 0 && j == jogadores[i].getNJogo() - 1)
+                                        System.out.println("\nO jogador nao fez nenhum Jogo General");
+                            }
+                            else if(tipoJogo.charAt(0) == 'A'){
+                                if(jogadores[i].getJogo(j) instanceof JogoAzar){
+                                    JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
+                                    if(auxA.getResultado() == 1){
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da Jogada: Ganhou");
+                                        contG++;
+                                    }
+                                    else{
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da Jogada: Perdeu");
+                                        contG++;
+                                    }
+                                }
+                                else
+                                    if(contG == 0 && j == jogadores[i].getNJogo() - 1)
+                                        System.out.println("\nO jogador nao fez nenhum Jogo de Azar");
+                            }
+                            else if(tipoJogo.charAt(0) == 'T'){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                    JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j);
+                                    if(auxG.getGanhou())
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da Jogada: Ganhou");
+                                    else
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da jogada: Perdeu");
+                                }
+                                else{
+                                    JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
+                                    if(auxA.getResultado() == 1)
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da Jogada: Ganhou");
+                                    else
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da jogada: Perdeu");
+                                }
+                            }
+                        }
+                    }
+                    else
+                        if(contJ == 0 && i == qntJogadores -1)
+                            System.out.println("\nNao existem jogadores maquina registrados");
+                }
+                else if(tipoJogador.charAt(0) == 'T'){
+                    if(jogadores[i] instanceof Humano){
+                        System.out.println("Jogador [H]: " + jogadores[i].getNome());
+
+                        for(int j = 0; j < jogadores[i].getNJogo(); j++){
+                            if(tipoJogo.charAt(0) == 'G'){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                    JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j);
+                                    if(auxG.getGanhou()){
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da jogada: Ganhou");
+                                        contG++;
+                                    }
+                                    else{
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da jogada: Perdeu");
+                                        contG++;
+                                    }
+                                }
+                                else
+                                    if(contG == 0 && j == jogadores[i].getNJogo() - 1)
+                                        System.out.println("\nO jogador nao fez nenhum Jogo General");
+                            }
+                            else if(tipoJogo.charAt(0) == 'A'){
+                                if(jogadores[i].getJogo(j) instanceof JogoAzar){
+                                    JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
+                                    if(auxA.getResultado() == 1){
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da Jogada: Ganhou");
+                                        contG++;
+                                    }
+                                    else{
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da Jogada: Perdeu");
+                                        contG++;
+                                    }
+                                }
+                                else
+                                    if(contG == 0 && j == jogadores[i].getNJogo() - 1)
+                                        System.out.println("\nO jogador nao fez nenhum Jogo de Azar");
+                            }
+                            else if(tipoJogo.charAt(0) == 'T'){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                    JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j);
+                                    if(auxG.getGanhou())
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da Jogada: Ganhou");
+                                    else
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da jogada: Perdeu");
+                                }
+                                else{
+                                    JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
+                                    if(auxA.getResultado() == 1)
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da Jogada: Ganhou");
+                                    else
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da jogada: Perdeu");
+                                }
+                            }
+                        }
+                    }
+                    else{
+                        System.out.println("Jogador [M]: " + jogadores[i].getNome());
+
+                        for(int j = 0; j < jogadores[i].getNJogo(); j++){
+                            if(tipoJogo.charAt(0) == 'G'){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                    JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j);
+                                    if(auxG.getGanhou()){
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da jogada: Ganhou");
+                                        contG++;
+                                    }
+                                    else{
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da jogada: Perdeu");
+                                        contG++;
+                                    }
+                                }
+                                else
+                                    if(contG == 0 && j == jogadores[i].getNJogo() - 1)
+                                        System.out.println("\nO jogador nao fez nenhum Jogo General");
+                            }
+                            else if(tipoJogo.charAt(0) == 'A'){
+                                if(jogadores[i].getJogo(j) instanceof JogoAzar){
+                                    JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
+                                    if(auxA.getResultado() == 1){
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da Jogada: Ganhou");
+                                        contG++;
+                                    }
+                                    else{
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da Jogada: Perdeu");
+                                        contG++;
+                                    }
+                                }
+                                else
+                                    if(contG == 0 && j == jogadores[i].getNJogo() - 1)
+                                        System.out.println("\nO jogador nao fez nenhum Jogo de Azar");
+                            }
+                            else if(tipoJogo.charAt(0) == 'T'){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                    JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j);
+                                    if(auxG.getGanhou())
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da Jogada: Ganhou");
+                                    else
+                                        System.out.println("\n[Jogo General] Valor apostado: R$" + auxG.getAposta() + ", Resultado da jogada: Perdeu");
+                                }
+                                else{
+                                    JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
+                                    if(auxA.getResultado() == 1)
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da Jogada: Ganhou");
+                                    else
+                                        System.out.println("\n[Jogo de Azar] Valor apostado: R$" + auxA.getAposta() + ", Resultado da jogada: Perdeu");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else
+            System.out.println("\nNumero de jogadores insuficiente para executar esse comando!\n");
+    }
+
     public void gravarEmArquivo(Campeonato camp){
         try{
             FileOutputStream fout = new FileOutputStream(file);
