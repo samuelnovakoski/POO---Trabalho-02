@@ -1,8 +1,16 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 
-public class Campeonato {
+public class Campeonato implements Serializable{
     private Jogador[] jogadores;
     private int qntJogadores;
+    private File file = new File("Campeonato.dat");
 
     public Campeonato(){
         jogadores = new Jogador[10];
@@ -107,63 +115,67 @@ public class Campeonato {
             int i;
 
             for(i = 0; i < qntJogadores; i++){
-                if(jogadores[i] instanceof Humano){
-                    Humano h = (Humano) jogadores[i];
+                if(jogadores[i].getSaldo() > 0 && jogadores[i].getNJogo() < 10){
+                    if(jogadores[i] instanceof Humano){
+                        Humano h = (Humano) jogadores[i];
+                        int tipoJogo = h.escolherJogo();
 
-                    int tipoJogo = h.escolherJogo();
+                        if(tipoJogo == 1){
+                            JogoGeneral novoJogo = new JogoGeneral();
 
-                    if(tipoJogo == 1){
-                        JogoGeneral novoJogo = new JogoGeneral();
+                            h.setJogo(novoJogo, h.getNJogo());
+                            fazerAposta(h, novoJogo);
 
-                        h.setJogo(novoJogo, h.getNJogo());
-                        fazerAposta(h, novoJogo);
+                            for(int j = 0; j < 13; j++){
+                                h.jogarDados(1);
+                                System.out.println("Dados: " + novoJogo.toString());
+                                h.escolherJogada(novoJogo);
+                            }
 
-                        for(int j = 0; j < 13; j++){
-                            h.jogarDados(1);
-                            System.out.println("Dados: " + novoJogo.toString());
-                            h.escolherJogada(novoJogo);
-                        }
+                            novoJogo.ganhou();
+                        
+                            if(novoJogo.getGanhou() == true){
+                                h.setSaldo(h.getSaldo() + novoJogo.getAposta());
+                                System.out.println("Parabens voce ganhou!");
+                                System.out.println(h.getSaldo());
+                            }
+                            else{
+                                h.setSaldo(h.getSaldo() - novoJogo.getAposta());
+                                System.out.println("Que pena, voce perdeu!");
+                                System.out.println(h.getSaldo());
+                            }
 
-                        novoJogo.ganhou();
-                    
-                        if(novoJogo.getGanhou() == true){
-                            h.setSaldo(h.getSaldo() + novoJogo.getAposta());
-                            System.out.println("Parabens voce ganhou!");
-                            System.out.println(h.getSaldo());
+                            h.setNJogo(h.getNJogo() + 1);
                         }
                         else{
-                            h.setSaldo(h.getSaldo() - novoJogo.getAposta());
-                            System.out.println("Que pena, voce perdeu!");
-                            System.out.println(h.getSaldo());
-                        }
+                            JogoAzar novoJogo = new JogoAzar();
 
-                        h.setNJogo(h.getNJogo() + 1);
+                            h.setJogo(novoJogo, h.getNJogo());
+                            fazerAposta(h, novoJogo);
+
+                            h.jogarDados(2); 
+                            novoJogo.executarRegrasJogo();
+                            
+                            if(novoJogo.getResultado() == 1){
+                                h.setSaldo(h.getSaldo() + novoJogo.getAposta());
+                            }
+                            else if(novoJogo.getResultado() == 0){
+                                h.setSaldo(h.getSaldo() - novoJogo.getAposta());
+                            }
+
+                            System.out.println("\nSaldo: R$" + h.getSaldo());
+                            h.setNJogo(h.getNJogo() + 1);
+                        }
                     }
                     else{
-                        JogoAzar novoJogo = new JogoAzar();
-
-                        h.setJogo(novoJogo, h.getNJogo());
-                        fazerAposta(h, novoJogo);
-
-                        h.jogarDados(2); 
-                        novoJogo.executarRegrasJogo();
-                        
-                        if(novoJogo.getResultado() == 1){
-                            h.setSaldo(h.getSaldo() + novoJogo.getAposta());
-                        }
-                        else if(novoJogo.getResultado() == 0){
-                            h.setSaldo(h.getSaldo() - novoJogo.getAposta());
-                        }
-
-                        System.out.println("\nSaldo: R$" + h.getSaldo());
-                        h.setNJogo(h.getNJogo() + 1);
+                        Maquina m = (Maquina) jogadores[i];
+                        m.aplicarEstrategia();
                     }
                 }
-                else{
-                    Maquina m = (Maquina) jogadores[i];
-                    
-                    m.aplicarEstrategia();
-                }
+                else if(jogadores[i].getSaldo() <= 0)
+                    System.out.println("O jogador " + jogadores[i].getNome() + " nao possui saldo suficiente para fazer uma aposta");
+                else
+                    System.out.println("O jogador " + jogadores[i].getNome() + " ja fez suas 10 jogadas");
             }
         }
     }
@@ -237,5 +249,41 @@ public class Campeonato {
         }
         else
             System.out.println("\nNumero de jogadores insuficiente para executar esse comando!\n");
+    }
+
+    public void gravarEmArquivo(Campeonato camp){
+        try{
+            FileOutputStream fout = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fout);
+
+            oos.writeObject(camp);
+            oos.flush();
+            oos.close();
+            fout.close();
+
+            System.out.println("Dados gravados com sucesso!");
+        }catch(Exception e){
+            System.out.println("erro: " + e);
+        }
+    }
+
+    public void lerDoArquivo(){
+        try{
+            FileInputStream fin = new FileInputStream(file);
+            ObjectInputStream oin = new ObjectInputStream(fin);
+            Campeonato camp = (Campeonato) oin.readObject();
+
+            oin.close();
+            fin.close();
+
+            for(int i = 0; i < 10; i++){
+                this.jogadores[i] = camp.jogadores[i];
+                this.qntJogadores = camp.qntJogadores;
+            }
+
+            System.out.println("Dados carregados com sucesso!\n");
+        }catch(Exception e){
+            System.out.println("erro: " + e);
+        }
     }
 }

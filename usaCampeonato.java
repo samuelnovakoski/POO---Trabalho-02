@@ -42,37 +42,21 @@ public class usaCampeonato {
                 case 'e':
                     campeonato.imprimirSaldo();
                     break;
-            //     case 'a': 
-            //         //novo jogador
-            //         campeonato.incluirJogador();
-            //         break;
-            //     case 'b':
-            //         //remover jogador
-            //         campeonato.removerJogador();
-            //         break;
-            //     case 'c':
-            //         // executa jogada
-            //         campeonato.iniciarCampeonato();
-            //         break;
-            //     case 'd':
-            //         //mostra cartela de resultados
-            //         campeonato.mostrarCartela();
-            //         break;
-            //     case 'e':
-            //         //gravar em arquivo
-            //         campeonato.gravarEmArquivo(campeonato);
-            //         break;
-            //     case 'f':
-            //         //ler arquivo
-            //         campeonato.lerDoArquivo();
-            //         break;
-            //     case 'g':
-            //         //sair da aplicação
-            //         System.out.println("Obrigado por jogar!! :)");
-            //         break;
-            //     default:
-            //         System.out.println("Opcao invalida!");
-            // }
+                // case 'f':
+                //     campeonato.estatisticas();
+                //     break;
+                case 'g':
+                    campeonato.gravarEmArquivo(campeonato);
+                    break;
+                case 'h':
+                    campeonato.lerDoArquivo();
+                    break;
+                case 'i':
+                    System.out.println("Obrigado por jogar!");
+                    break;
+                default:
+                    System.out.println("Opcao invalida!");
+                    break;
             }
         }while(opc != 'i');
     }

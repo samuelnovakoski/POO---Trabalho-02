@@ -1,6 +1,7 @@
 import java.util.Scanner;
+import java.io.Serializable;
 
-public abstract class Jogador{
+public abstract class Jogador implements Serializable{
     private String nome;
     private JogoDados[] jogos;
     private int nJogo;
