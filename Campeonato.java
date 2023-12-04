@@ -619,10 +619,9 @@ public class Campeonato implements Serializable{
                     }
                 }
                 case 3 ->{
+                    int[] statJG = new int[6];
+                    int[] statJA = new int[6];
                     for(int i = 0; i < qntJogadores; i++){
-                        int[] statJG = new int[6];
-                        int[] statJA = new int[6];
-
                         for(int j = 0; j < jogadores[i].getNJogo(); j++){
                             auxJD = jogadores[i].getJogo(j);
                             if(auxJD instanceof JogoGeneral){
@@ -636,14 +635,14 @@ public class Campeonato implements Serializable{
                                 }
                             }
                         }
-                        System.out.println("\nJogo General: ");
-                        for(int k = 0; k < statJG.length; k++){
-                            System.out.println(k+1 + ": " + statJG[k]);
-                        }
-                        System.out.println("\nJogo de Azar: ");
-                        for(int k = 0; k < statJA.length; k++){
-                            System.out.println(k+1 + ": " + statJA[k]);
-                        }
+                    }
+                    System.out.println("\nJogo General: ");
+                    for(int k = 0; k < statJG.length; k++){
+                        System.out.println(k+1 + ": " + statJG[k]);
+                    }
+                    System.out.println("\nJogo de Azar: ");
+                    for(int k = 0; k < statJA.length; k++){
+                        System.out.println(k+1 + ": " + statJA[k]);
                     }
                 }
                 case 4 ->{
