@@ -10,11 +10,12 @@ import java.io.Serializable;
 public class Campeonato implements Serializable{
     private Jogador[] jogadores;
     private int qntJogadores;
-    private File file = new File("Campeonato.dat");
+    private File file;
 
     public Campeonato(){
         jogadores = new Jogador[10];
         qntJogadores = 0;
+        file = new File("Campeonato.dat");
     }
 
     public void incluirJogador(){
@@ -273,7 +274,7 @@ public class Campeonato implements Serializable{
                 do{
                     tipoJogador = scan.nextLine().toUpperCase();
                     if(tipoJogador.charAt(0) != 'H' && tipoJogador.charAt(0) != 'M' && tipoJogador.charAt(0) != 'T')
-                        System.out.println("\nJogo invalido, digite novamente\n");
+                        System.out.println("\nTipo invalido, digite novamente\n");
                 }while(tipoJogador.charAt(0) != 'H' && tipoJogador.charAt(0) != 'M' && tipoJogador.charAt(0) != 'T');
             }catch(Exception e){
                 System.out.println("\nError: " + e);
@@ -399,6 +400,7 @@ public class Campeonato implements Serializable{
                             System.out.println("\nNao existem jogadores maquina registrados");
                 }
                 else if(tipoJogador.charAt(0) == 'T'){
+                    contG = 0;
                     if(jogadores[i] instanceof Humano){
                         System.out.println("\nJogador [H]: " + jogadores[i].getNome());
 
@@ -443,12 +445,15 @@ public class Campeonato implements Serializable{
                                     else
                                         System.out.println("[Jogo General] Valor apostado: R$" + String.format("%.2f", auxG.getAposta()) + ", Resultado da jogada: Perdeu");
                                 }
-                                else{
+                                else if(jogadores[i].getJogo(j) instanceof JogoAzar){
                                     JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
                                     if(auxA.getResultado() == 1)
                                         System.out.println("[Jogo de Azar] Valor apostado: R$" + String.format("%.2f", auxA.getAposta()) + ", Resultado da Jogada: Ganhou");
                                     else
                                         System.out.println("[Jogo de Azar] Valor apostado: R$" + String.format("%.2f", auxA.getAposta()) + ", Resultado da jogada: Perdeu");
+                                }
+                                else{
+                                    System.out.println("Jogador nao fez nenhum jogo!");
                                 }
                             }
                         }
@@ -497,13 +502,16 @@ public class Campeonato implements Serializable{
                                     else
                                         System.out.println("[Jogo General] Valor apostado: R$" + String.format("%.2f", auxG.getAposta()) + ", Resultado da jogada: Perdeu");
                                 }
-                                else{
+                                else if(jogadores[i].getJogo(j) instanceof JogoAzar){
                                     JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
                                     if(auxA.getResultado() == 1)
                                         System.out.println("[Jogo de Azar] Valor apostado: R$" + String.format("%.2f", auxA.getAposta()) + ", Resultado da Jogada: Ganhou");
                                     else
                                         System.out.println("[Jogo de Azar] Valor apostado: R$" + String.format("%.2f", auxA.getAposta()) + ", Resultado da jogada: Perdeu");
                                 }
+                                else
+                                    System.out.println("Jogador nao fez nenhum jogo!");
+                                
                             }
                         }
                     }
@@ -634,14 +642,14 @@ public class Campeonato implements Serializable{
                                 }
                             }
                         }
-                        System.out.println("\nJogo General: ");
-                        for(int k = 0; k < statJG.length; k++){
-                            System.out.println(k+1 + ": " + statJG[k]);
-                        }
-                        System.out.println("\nJogo de Azar: ");
-                        for(int k = 0; k < statJA.length; k++){
-                            System.out.println(k+1 + ": " + statJA[k]);
-                        }
+                    }
+                    System.out.println("\nJogo General: ");
+                    for(int k = 0; k < statJG.length; k++){
+                        System.out.println(k+1 + ": " + statJG[k]);
+                    }
+                    System.out.println("\nJogo de Azar: ");
+                    for(int k = 0; k < statJA.length; k++){
+                        System.out.println(k+1 + ": " + statJA[k]);
                     }
                     break;
                 case 4 :

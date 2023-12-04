@@ -21,7 +21,7 @@ public abstract class JogoDados implements Estatistica, Serializable{
         for(int i = 0; i < nDados; i++)
             dados[i] = new Dado();
 
-        statDados = new int[6];
+        statDados = new int[numFaces];
     }
 
     public String getNomeJogo(){

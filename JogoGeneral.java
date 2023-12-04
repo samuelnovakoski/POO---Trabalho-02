@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class JogoGeneral extends JogoDados{
     private int valoresJogadas[];
     private int resultado;
-    private boolean ganhou;
 
     public JogoGeneral(){
         super("JogoGeneral", 5);
@@ -226,13 +225,7 @@ public class JogoGeneral extends JogoDados{
 
         if(soma12 > (valoresJogadas[12] * 2))
             setResultado(1);
-            // ganhou = true;
         else
             setResultado(0);
-            // ganhou = false;
     }
-
-    // public boolean getGanhou(){
-    //     return ganhou;
-    // }
 }

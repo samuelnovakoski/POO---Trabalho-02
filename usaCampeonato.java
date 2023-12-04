@@ -37,7 +37,7 @@ public class usaCampeonato {
                     campeonato.iniciarCampeonato();
                     break;
                 case 'd':
-                    campeonato.imprimirSaldo();;
+                    campeonato.imprimirSaldo();
                     break;
                 case 'e':
                     campeonato.imprimirExtratos();
