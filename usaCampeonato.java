@@ -7,7 +7,7 @@ public class usaCampeonato {
     }
 
     public static void menu(Campeonato campeonato){
-        char opc;
+        String opc;
 
         do {
             Scanner scanner = new Scanner(System.in);
@@ -24,9 +24,9 @@ public class usaCampeonato {
             System.out.println("|  i - Sair da aplicacao                     |");
             System.out.println("|____________________________________________|");
             System.out.print(" Escolha uma opcao: ");
-            opc = scanner.nextLine().charAt(0);
+            opc = scanner.nextLine().toLowerCase();
 
-            switch(opc){
+            switch(opc.charAt(0)){
                 case 'a':
                     campeonato.incluirJogador();
                     break;
@@ -58,6 +58,6 @@ public class usaCampeonato {
                     System.out.println("Opcao invalida!");
                     break;
             }
-        }while(opc != 'i');
+        }while(opc.charAt(0) != 'i');
     }
 }

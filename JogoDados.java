@@ -6,6 +6,7 @@ public abstract class JogoDados implements Estatistica, Serializable{
     private float valorAposta;
     private Dado dados[];
     private int[] statDados;
+    private int resultado;
 
     public JogoDados(){
         nDados = 0;
@@ -68,6 +69,14 @@ public abstract class JogoDados implements Estatistica, Serializable{
 
     public int[] getStatDados(){
         return statDados;
+    }
+
+    public void setResultado(int resultado){
+        this.resultado = resultado;
+    }
+
+    public int getResultado(){
+        return resultado;
     }
 
     public int somarFaces(Dado dados[]){

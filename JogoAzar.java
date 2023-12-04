@@ -1,5 +1,5 @@
 public class JogoAzar extends JogoDados{
-    private int resultadoJogo;
+    // private int resultadoJogo;
 
     public JogoAzar(){
         super("JogoAzar", 2);
@@ -14,11 +14,13 @@ public class JogoAzar extends JogoDados{
 
         if(soma == 7 || soma == 11){
             System.out.println("Jogador ganhou");
-            resultadoJogo = 1;
+            setResultado(1);
+            // resultadoJogo = 1;
         }
         else if(soma == 2 || soma == 3 || soma == 12){
             System.out.println("Jogador perdeu");
-            resultadoJogo = 0;
+            setResultado(0);
+            // resultadoJogo = 0;
         }
         else{
             int valorBusca = 0;
@@ -36,17 +38,19 @@ public class JogoAzar extends JogoDados{
 
                 if(soma == valorBusca){
                     System.out.println("Jogador ganhou");
-                    resultadoJogo = 1;
+                    setResultado(1);
+                    // resultadoJogo = 1;
                 }
                 else if(soma == 2 || soma == 3 || soma == 12){
                     System.out.println("Jogador perdeu");
-                    resultadoJogo = 0;
+                    setResultado(0);
+                    // resultadoJogo = 0;
                 }
             }while(soma != valorBusca && soma != 2 && soma != 3 && soma != 12);
         }
     }
 
-    public int getResultado(){
-        return resultadoJogo;
-    }
+    // public int getResultado(){
+    //     return resultadoJogo;
+    // }
 }

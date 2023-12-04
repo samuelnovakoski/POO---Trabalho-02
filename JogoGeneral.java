@@ -217,7 +217,7 @@ public class JogoGeneral extends JogoDados{
     public void ganhou(){
         int soma12 = 0;
 
-        for(int i = 0; i < 13; i++){
+        for(int i = 0; i < 13 - 1; i++){
             soma12 += getJogadas(i);
         }
 
@@ -225,12 +225,14 @@ public class JogoGeneral extends JogoDados{
         System.out.println("Dobro da ultima jogada: " + getJogadas(12) * 2);
 
         if(soma12 > (valoresJogadas[12] * 2))
-            ganhou = true;
+            setResultado(1);
+            // ganhou = true;
         else
-            ganhou = false;
+            setResultado(0);
+            // ganhou = false;
     }
 
-    public boolean getGanhou(){
-        return ganhou;
-    }
+    // public boolean getGanhou(){
+    //     return ganhou;
+    // }
 }

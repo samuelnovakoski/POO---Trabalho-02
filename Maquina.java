@@ -10,7 +10,7 @@ public class Maquina extends Jogador implements JogarComoMaquina{
     public int aplicarEstrategia() {
         jogoEscolhido = escolherJogo();
 
-        System.out.print("Jogo: ");
+        System.out.print("\nJogo escolhido pelo jogador " + getNome() + ": ");
         System.out.println(jogoEscolhido == 1 ? "jogo General" : "jogoAzar");
 
         if(jogoEscolhido == 1){
@@ -21,10 +21,10 @@ public class Maquina extends Jogador implements JogarComoMaquina{
             if(getSaldo() >= 10){
                 Random aposta = new Random();
                 valorAposta = aposta.nextFloat() * getSaldo();
-                valorAposta = Math.min(valorAposta, getSaldo());
+                jogoG.setAposta(Math.min(valorAposta, getSaldo()));
             }
             else
-                valorAposta = getSaldo();
+                jogoG.setAposta(getSaldo());
 
             System.out.println("Saldo " + getNome() + " R$" + String.format("%.2f", getSaldo()));
             System.out.println("Valor apostado pelo jogador " + getNome() + " R$" + String.format("%.2f", valorAposta));
@@ -41,12 +41,12 @@ public class Maquina extends Jogador implements JogarComoMaquina{
 
             jogoG.ganhou();
 
-            if(jogoG.getGanhou()){
-                setSaldo(getSaldo() + valorAposta);
+            if(jogoG.getResultado() == 1){
+                setSaldo(getSaldo() + jogoG.getAposta());
                 System.out.println("Ganhou");
             }
             else{
-                setSaldo(getSaldo() - valorAposta);
+                setSaldo(getSaldo() - jogoG.getAposta());
                 System.out.println("Perdeu");
             }
 
@@ -63,10 +63,10 @@ public class Maquina extends Jogador implements JogarComoMaquina{
             if(getSaldo() >= 10){
                 Random aposta = new Random();
                 valorAposta = aposta.nextFloat() * getSaldo();
-                valorAposta = Math.min(valorAposta, getSaldo());
+                jogoA.setAposta(Math.min(valorAposta, getSaldo()));
             }
             else
-                valorAposta = getSaldo();
+                jogoA.setAposta(getSaldo());
 
             System.out.println("Saldo " + getNome() + " R$" + String.format("%.2f", getSaldo()));
             System.out.println("Valor apostado pelo jogador " + getNome() + " R$" + String.format("%.2f", valorAposta));
@@ -75,9 +75,9 @@ public class Maquina extends Jogador implements JogarComoMaquina{
             jogoA.executarRegrasJogo();
 
             if(jogoA.getResultado() == 1)
-                setSaldo(getSaldo() + valorAposta);
+                setSaldo(getSaldo() + jogoA.getAposta());
             else if(jogoA.getResultado() == 0)
-                setSaldo(getSaldo() - valorAposta);
+                setSaldo(getSaldo() - jogoA.getAposta());
             
             System.out.println("\nSaldo: R$" + String.format("%.2f", getSaldo()));
             setNJogo(getNJogo() + 1);

@@ -20,7 +20,7 @@ public class Humano extends Jogador implements JogarComoHumano{
 
         try{
             do{
-                System.out.print("Escolha o jogo que deseja jogar [1 = Jogo General || 2 = Jogo Azar]: ");
+                System.out.print("\n" + getNome() + ", escolha o jogo que deseja jogar [1 = Jogo General || 2 = Jogo Azar]: ");
                 jogo = scan.nextInt();
 
                 if(jogo == 1 || jogo == 2)
