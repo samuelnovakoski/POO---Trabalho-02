@@ -42,9 +42,9 @@ public class usaCampeonato {
                 case 'e':
                     campeonato.imprimirExtratos();
                     break;
-                // case 'f':
-                //     campeonato.estatisticas();
-                //     break;
+                 case 'f':
+                     campeonato.imprimirEstatisticas();
+                     break;
                 case 'g':
                     campeonato.gravarEmArquivo(campeonato);
                     break;

@@ -514,6 +514,158 @@ public class Campeonato implements Serializable{
             System.out.println("\nNumero de jogadores insuficiente para executar esse comando!\n");
     }
 
+    public void imprimirEstatisticas(){
+        Scanner scan = new Scanner(System.in);
+        Scanner scan2 = new Scanner(System.in);
+        int opcao = 0, cont = 0;
+        String tipoJogador = "";
+        JogoDados auxJD;
+        int[] statTotal = new int[6];
+
+        if(qntJogadores > 0){
+            System.out.println("\nComo deseja imprimir as estatisticas? [1] Por tipo de jogador, [2] Por tipo de jogo de cada jogador, [3] Total por jogos, [4] Total do Campeonato: ");
+            try{
+                do{
+                    opcao = scan.nextInt();
+                    if(opcao != 1 && opcao != 2 && opcao != 3 && opcao != 4)
+                        System.out.println("\nOpcao invalida, digite novamente\n");
+                }while(opcao != 1 && opcao != 2 && opcao != 3 && opcao != 4);
+            }catch(Exception e){
+                System.out.println("\nError: " + e);
+            }
+
+            switch(opcao){
+                case 1 ->{
+                    System.out.println("\nPara qual tipo de jogador deseja imprimir? [H para Humano ou M para Maquina]: ");
+                    try{
+                        do{
+                            tipoJogador = scan2.nextLine().toUpperCase();
+                            if(tipoJogador.charAt(0) != 'H' && tipoJogador.charAt(0) != 'M')
+                                System.out.println("\nTipo invalido, digite novamente\n");
+                       }while(tipoJogador.charAt(0) != 'H' && tipoJogador.charAt(0) != 'M');
+                    }catch(Exception e){
+                        System.out.println("\nError: " + e);
+                    }
+
+                    if(tipoJogador.charAt(0) == 'H'){
+                        System.out.println("\nEstatisticas para jogadores humanos: ");
+                        for(int i = 0; i < qntJogadores; i++){
+                            int[] statJogador = new int[6];
+                            if(jogadores[i] instanceof Humano){
+                                for(int j = 0; j < jogadores[i].getNJogo(); j++){
+                                    auxJD = jogadores[i].getJogo(j);
+                                    for(int k = 0; k < auxJD.getStatDados().length; k++){
+                                        statJogador[k] += auxJD.getStatDados()[k];
+                                    }
+                                }
+                                for(int k = 0; k < statJogador.length; k++){
+                                    System.out.println(k+1 + ": " + statJogador[k]);
+                                }
+                            }
+                            else
+                                if(cont == 0 && i == qntJogadores - 1)
+                                    System.out.println("\nNao existem jogadores humanos registrados");
+                        }
+                    }
+
+                    if(tipoJogador.charAt(0) == 'M'){
+                        System.out.println("\nEstatisticas para jogadores maquinas: ");
+                        for(int i = 0; i < qntJogadores; i++){
+                            int[] statJogador = new int[6];
+                            if(jogadores[i] instanceof Maquina){
+                                for(int j = 0; j < jogadores[i].getNJogo(); j++){
+                                    auxJD = jogadores[i].getJogo(j);
+                                    for(int k = 0; k < auxJD.getStatDados().length; k++){
+                                        statJogador[k] += auxJD.getStatDados()[k];
+                                    }
+                                }
+                                for(int k = 0; k < statJogador.length; k++){
+                                    System.out.println(k+1 + ": " + statJogador[k]);
+                                }
+                            }
+                            else
+                                if(cont == 0 && i == qntJogadores - 1)
+                                    System.out.println("\nNao existem jogadores maquinas registrados");
+                        }
+                    }                        
+                }
+                case 2 ->{
+                    for(int i = 0; i < qntJogadores; i++){
+                        int[] statJG = new int[6];
+                        int[] statJA = new int[6];
+
+                        System.out.println("\nJogador: " + jogadores[i].getNome());
+                        for(int j = 0; j < jogadores[i].getNJogo(); j++){
+                            auxJD = jogadores[i].getJogo(j);
+                            if(auxJD instanceof JogoGeneral){
+                                for(int k = 0; k < auxJD.getStatDados().length; k++){
+                                    statJG[k] += auxJD.getStatDados()[k];
+                                }
+                            }
+                            else{
+                                for(int k = 0; k < auxJD.getStatDados().length; k++){
+                                    statJA[k] += auxJD.getStatDados()[k];
+                                }
+                            }
+                        }
+                        System.out.println("\nJogo General: ");
+                        for(int k = 0; k < statJG.length; k++){
+                            System.out.println(k+1 + ": " + statJG[k]);
+                        }
+                        System.out.println("\nJogo de Azar: ");
+                        for(int k = 0; k < statJA.length; k++){
+                            System.out.println(k+1 + ": " + statJA[k]);
+                        }
+                    }
+                }
+                case 3 ->{
+                    for(int i = 0; i < qntJogadores; i++){
+                        int[] statJG = new int[6];
+                        int[] statJA = new int[6];
+
+                        for(int j = 0; j < jogadores[i].getNJogo(); j++){
+                            auxJD = jogadores[i].getJogo(j);
+                            if(auxJD instanceof JogoGeneral){
+                                for(int k = 0; k < auxJD.getStatDados().length; k++){
+                                    statJG[k] += auxJD.getStatDados()[k];
+                                }
+                            }
+                            else{
+                                for(int k = 0; k < auxJD.getStatDados().length; k++){
+                                    statJA[k] += auxJD.getStatDados()[k];
+                                }
+                            }
+                        }
+                        System.out.println("\nJogo General: ");
+                        for(int k = 0; k < statJG.length; k++){
+                            System.out.println(k+1 + ": " + statJG[k]);
+                        }
+                        System.out.println("\nJogo de Azar: ");
+                        for(int k = 0; k < statJA.length; k++){
+                            System.out.println(k+1 + ": " + statJA[k]);
+                        }
+                    }
+                }
+                case 4 ->{
+                    System.out.println("\nEstatisticas totais do campeonato: ");
+                    for(int i = 0; i< qntJogadores; i++){
+                        for(int j = 0; j < jogadores[i].getNJogo(); j++){
+                            auxJD = jogadores[i].getJogo(j);
+                            for(int k = 0; k < auxJD.getStatDados().length; k++){
+                                statTotal[k] += auxJD.getStatDados()[k];
+                            }
+                        }
+                    }
+                    for(int i = 0; i < 6; i++){
+                        System.out.println(i+1 + ": " + statTotal[i]);
+                    }
+                }
+                default -> System.out.println("\nOpcao invalida, digite novamente\n");
+            }
+
+        }
+    }
+
     public void gravarEmArquivo(Campeonato camp){
         try{
             FileOutputStream fout = new FileOutputStream(file);

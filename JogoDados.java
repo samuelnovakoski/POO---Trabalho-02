@@ -5,6 +5,7 @@ public abstract class JogoDados implements Estatistica, Serializable{
     private String nomeJogo;
     private float valorAposta;
     private Dado dados[];
+    private int[] statDados;
 
     public JogoDados(){
         nDados = 0;
@@ -18,6 +19,8 @@ public abstract class JogoDados implements Estatistica, Serializable{
 
         for(int i = 0; i < nDados; i++)
             dados[i] = new Dado();
+
+        statDados = new int[6];
     }
 
     public String getNomeJogo(){
@@ -34,7 +37,9 @@ public abstract class JogoDados implements Estatistica, Serializable{
 
     public void rolarDados(){
         for(int i = 0; i < nDados; i++)
-            dados[i].roll();   
+            dados[i].roll(); 
+        
+        this.somarFacesSorteadas(dados);
     }
 
     public Dado getDado(int pos){
@@ -61,12 +66,26 @@ public abstract class JogoDados implements Estatistica, Serializable{
         System.out.println("Dados: " + toString());
     }
 
-    public int somarFacesSorteadas(Dado dados[]){
+    public int[] getStatDados(){
+        return statDados;
+    }
+
+    public int somarFaces(Dado dados[]){
         int x = 0;
 
         for(int i = 0; i < nDados; i++)
             x += dados[i].getSideUp();
 
         return x;
+    }
+
+    public void somarFacesSorteadas(Dado dados[]){
+        for(int i = 0; i < 6; i++){
+            for(int j = 0; j < nDados; j++){
+                if(i+1 == dados[j].getSideUp()){
+                    statDados[i]++;
+                }
+            }
+        }
     }
 }

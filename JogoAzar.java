@@ -8,7 +8,7 @@ public class JogoAzar extends JogoDados{
     public void executarRegrasJogo(){
         mostrarDados();
         
-        int soma = somarFacesSorteadas(getDados());
+        int soma = somarFaces(getDados());
 
         System.out.println("Resultado: " + soma + "\n");
 
@@ -31,7 +31,7 @@ public class JogoAzar extends JogoDados{
                 rolarDados();
                 System.out.println("Dados: " + toString());
 
-                soma = somarFacesSorteadas(getDados());
+                soma = somarFaces(getDados());
                 System.out.println("Resultado: " + soma);
 
                 if(soma == valorBusca){
