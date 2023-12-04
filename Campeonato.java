@@ -131,17 +131,16 @@ public class Campeonato implements Serializable{
                                 System.out.println("Dados: " + novoJogo.toString());
                                 h.escolherJogada(novoJogo);
                             }
-
                         
                             if(novoJogo.getResultado() == 1){
                                 h.setSaldo(h.getSaldo() + novoJogo.getAposta());
                                 System.out.println("Parabens voce ganhou!");
-                                System.out.println(h.getSaldo());
+                                System.out.println("Saldo: " + String.format("%.2f", h.getSaldo()));
                             }
                             else{
                                 h.setSaldo(h.getSaldo() - novoJogo.getAposta());
                                 System.out.println("Que pena, voce perdeu!");
-                                System.out.println(h.getSaldo());
+                                System.out.println("Saldo: " + String.format("%.2f", h.getSaldo()));
                             }
 
                             h.setNJogo(h.getNJogo() + 1);
@@ -162,7 +161,7 @@ public class Campeonato implements Serializable{
                                 h.setSaldo(h.getSaldo() - novoJogo.getAposta());
                             }
 
-                            System.out.println("\nSaldo: R$" + h.getSaldo());
+                            System.out.println("\nSaldo: R$" + String.format("%.2f", h.getSaldo()));
                             h.setNJogo(h.getNJogo() + 1);
                         }
                     }
@@ -547,10 +546,11 @@ public class Campeonato implements Serializable{
                     }catch(Exception e){
                         System.out.println("\nError: " + e);
                     }
+
                     int[] statJogador = new int[6];
 
                     if(tipoJogador.charAt(0) == 'H'){
-                        System.out.println("\nEstatisticas para jogadores humanos: ")
+                        System.out.println("\nEstatisticas para jogadores humanos: ");
                         for(int i = 0; i < qntJogadores; i++){
                             if(jogadores[i] instanceof Humano){
                                 for(int j = 0; j < jogadores[i].getNJogo(); j++){
@@ -559,9 +559,6 @@ public class Campeonato implements Serializable{
                                         statJogador[k] += auxJD.getStatDados()[k];
                                     }
                                 }
-
-
-
                             }
                             else
                                 if(cont == 0 && i == qntJogadores - 1)
@@ -570,7 +567,7 @@ public class Campeonato implements Serializable{
                     }
 
                     if(tipoJogador.charAt(0) == 'M'){
-                        System.out.println("\nEstatisticas para jogadores maquinas: ")
+                        System.out.println("\nEstatisticas para jogadores maquinas: ");
                         for(int i = 0; i < qntJogadores; i++){
                             if(jogadores[i] instanceof Maquina){
                                 for(int j = 0; j < jogadores[i].getNJogo(); j++){
@@ -579,9 +576,6 @@ public class Campeonato implements Serializable{
                                         statJogador[k] += auxJD.getStatDados()[k];
                                     }
                                 }
-
-
-
                             }
                             else
                                 if(cont == 0 && i == qntJogadores - 1)
@@ -625,6 +619,7 @@ public class Campeonato implements Serializable{
                 case 3 :
                     int[] statJG = new int[6];
                     int[] statJA = new int[6];
+
                     for(int i = 0; i < qntJogadores; i++){
                         for(int j = 0; j < jogadores[i].getNJogo(); j++){
                             auxJD = jogadores[i].getJogo(j);
@@ -639,14 +634,14 @@ public class Campeonato implements Serializable{
                                 }
                             }
                         }
-                    }
-                    System.out.println("\nJogo General: ");
-                    for(int k = 0; k < statJG.length; k++){
-                        System.out.println(k+1 + ": " + statJG[k]);
-                    }
-                    System.out.println("\nJogo de Azar: ");
-                    for(int k = 0; k < statJA.length; k++){
-                        System.out.println(k+1 + ": " + statJA[k]);
+                        System.out.println("\nJogo General: ");
+                        for(int k = 0; k < statJG.length; k++){
+                            System.out.println(k+1 + ": " + statJG[k]);
+                        }
+                        System.out.println("\nJogo de Azar: ");
+                        for(int k = 0; k < statJA.length; k++){
+                            System.out.println(k+1 + ": " + statJA[k]);
+                        }
                     }
                     break;
                 case 4 :
