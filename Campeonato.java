@@ -132,7 +132,6 @@ public class Campeonato implements Serializable{
                                 h.escolherJogada(novoJogo);
                             }
 
-                            // novoJogo.ganhou();
                         
                             if(novoJogo.getResultado() == 1){
                                 h.setSaldo(h.getSaldo() + novoJogo.getAposta());
@@ -551,8 +550,7 @@ public class Campeonato implements Serializable{
                     int[] statJogador = new int[6];
 
                     if(tipoJogador.charAt(0) == 'H'){
-                        System.out.println("\nEstatisticas para jogadores humanos: ");
-                        // int[] statJogador = new int[6];
+                        System.out.println("\nEstatisticas para jogadores humanos: ")
                         for(int i = 0; i < qntJogadores; i++){
                             if(jogadores[i] instanceof Humano){
                                 for(int j = 0; j < jogadores[i].getNJogo(); j++){
@@ -561,9 +559,9 @@ public class Campeonato implements Serializable{
                                         statJogador[k] += auxJD.getStatDados()[k];
                                     }
                                 }
-                                // for(int k = 0; k < statJogador.length; k++){
-                                //     System.out.println(k+1 + ": " + statJogador[k]);
-                                // }
+
+
+
                             }
                             else
                                 if(cont == 0 && i == qntJogadores - 1)
@@ -572,8 +570,7 @@ public class Campeonato implements Serializable{
                     }
 
                     if(tipoJogador.charAt(0) == 'M'){
-                        System.out.println("\nEstatisticas para jogadores maquinas: ");
-                        // int[] statJogador = new int[6];
+                        System.out.println("\nEstatisticas para jogadores maquinas: ")
                         for(int i = 0; i < qntJogadores; i++){
                             if(jogadores[i] instanceof Maquina){
                                 for(int j = 0; j < jogadores[i].getNJogo(); j++){
@@ -582,9 +579,9 @@ public class Campeonato implements Serializable{
                                         statJogador[k] += auxJD.getStatDados()[k];
                                     }
                                 }
-                                // for(int k = 0; k < statJogador.length; k++){
-                                //     System.out.println(k+1 + ": " + statJogador[k]);
-                                // }
+
+
+
                             }
                             else
                                 if(cont == 0 && i == qntJogadores - 1)
