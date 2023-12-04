@@ -7,6 +7,7 @@ public abstract class Jogador implements Serializable{
     private int nJogo;
     private float saldo;
 
+    //construtor padrão
     public Jogador(){
         setNome();
         jogos = new JogoDados[10];
@@ -14,6 +15,7 @@ public abstract class Jogador implements Serializable{
         saldo = 100.00f;
     }
 
+    //construtor sobrecarregado
     public Jogador(String nome){
         this.nome = nome;
         jogos = new JogoDados[10];
@@ -58,6 +60,7 @@ public abstract class Jogador implements Serializable{
         this.saldo = novoSaldo;
     }
 
+    //método para jogar os dados de acordo com o tipo do jogo
     public void jogarDados(int tipoJogo){
         if(tipoJogo == 1)
             if(jogos[nJogo] == null)

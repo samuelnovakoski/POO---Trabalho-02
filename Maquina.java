@@ -4,9 +4,12 @@ public class Maquina extends Jogador implements JogarComoMaquina{
     private float valorAposta;
     private int jogoEscolhido;
 
+    //construtor chamando o construtor herdado da superclasse
     public Maquina(String nome){
         super(nome);
     }
+
+    //implementação da interface JogarComoMaquina: randomiza a jogada
     public int aplicarEstrategia() {
         jogoEscolhido = escolherJogo();
 
@@ -90,6 +93,7 @@ public class Maquina extends Jogador implements JogarComoMaquina{
         return jogoEscolhido;
     }
 
+    //implementação da interface JogarComoMaquina: escolhe um jogo aleatorio entre 1 e 2
     public int escolherJogo(){
         int jogo;
 

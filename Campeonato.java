@@ -12,6 +12,7 @@ public class Campeonato implements Serializable{
     private int qntJogadores;
     private File file;
 
+    //construtor padrão
     public Campeonato(){
         jogadores = new Jogador[10];
         qntJogadores = 0;
@@ -24,7 +25,7 @@ public class Campeonato implements Serializable{
         String nome;
         String aux;
 
-        if(qntJogadores < 10){
+        if(qntJogadores < 10){ //verifica se o numero maximo de jogadores foi atingido
             for(int i = 0; i < jogadores.length; i++)
                 if(jogadores[i] == null && cont == 0){
                     System.out.print("Insira o nome do jogador: ");
@@ -51,18 +52,18 @@ public class Campeonato implements Serializable{
                                 System.out.print("Insira o numero do banco: ");
                                 numBanco = scan.nextInt();
 
-                                jogadores[i] = new Humano(nome, cpf, agencia, conta, numBanco);
+                                jogadores[i] = new Humano(nome, cpf, agencia, conta, numBanco); //polimorfismo
                                 jogadores[i].setSaldo(100);
                                 qntJogadores++;
                             }
                             else if(aux.charAt(0) == 'm'){
-                                jogadores[i] = new Maquina(nome);
+                                jogadores[i] = new Maquina(nome); //polimorfismo
                                 jogadores[i].setSaldo(100);
                                 qntJogadores++;
                             }
                             else
                                 System.out.println("Tipo de jogador invalido!\nPor favor insira um tipo valido [H = Humano || M = Maquina]: ");
-                        }while(aux.charAt(0) != 'h' && aux.charAt(0) != 'H' && aux.charAt(0) != 'm');
+                        }while(aux.charAt(0) != 'h' && aux.charAt(0) != 'H' && aux.charAt(0) != 'm'); //verifica se o caractere inserido é valido
                         
                         cont++;
                         System.out.println("\nJogador " + nome + " adicionado com sucesso");
@@ -95,7 +96,7 @@ public class Campeonato implements Serializable{
 
                     System.out.println("\nJogador " + nome + " foi removido com sucesso!");
                 }
-            if(removido == 0)
+            if(removido == 0) //se 'removido' nao foi incrementado, significa que nao existe um jogador com o nome inserido
                 System.out.println("\nNao foi possivel encontrar o jogador " + nome);
         }
         else
@@ -112,17 +113,17 @@ public class Campeonato implements Serializable{
     }
 
     public void iniciarCampeonato(){
-        if(qntJogadores > 0){
+        if(qntJogadores > 0){ //verifica se existem jogadores registrados
             int i;
 
-            for(i = 0; i < qntJogadores; i++){
-                if(jogadores[i].getSaldo() > 0 && jogadores[i].getNJogo() < 10){
-                    if(jogadores[i] instanceof Humano){
+            for(i = 0; i < qntJogadores; i++){ //percorre todos os jogadores
+                if(jogadores[i].getSaldo() > 0 && jogadores[i].getNJogo() < 10){ //verifica e o saldo do jogador é maior que 0 e se nao foi atingido o n maximo de jogadas
+                    if(jogadores[i] instanceof Humano){ //polimorfismo
                         Humano h = (Humano) jogadores[i];
                         int tipoJogo = h.escolherJogo();
 
                         if(tipoJogo == 1){
-                            JogoGeneral novoJogo = new JogoGeneral();
+                            JogoGeneral novoJogo = new JogoGeneral(); //polimorfismo
 
                             h.setJogo(novoJogo, h.getNJogo());
                             fazerAposta(h, novoJogo);
@@ -147,7 +148,7 @@ public class Campeonato implements Serializable{
                             h.setNJogo(h.getNJogo() + 1);
                         }
                         else{
-                            JogoAzar novoJogo = new JogoAzar();
+                            JogoAzar novoJogo = new JogoAzar(); //polimorfismo
 
                             h.setJogo(novoJogo, h.getNJogo());
                             fazerAposta(h, novoJogo);
@@ -167,7 +168,7 @@ public class Campeonato implements Serializable{
                         }
                     }
                     else{
-                        Maquina m = (Maquina) jogadores[i];
+                        Maquina m = (Maquina) jogadores[i]; //polimorfismo
                         m.aplicarEstrategia();
                     }
                 }
@@ -192,7 +193,7 @@ public class Campeonato implements Serializable{
             do{
                 aposta = scan.nextFloat();
 
-                if(aposta <= jogador.getSaldo() && aposta > 0)
+                if(aposta <= jogador.getSaldo() && aposta > 0) //valida a aposta de acordo com o saldo do jogador
                     jogo.setAposta(aposta);
                 else if(aposta <= 0)
                     System.out.println("Aposta invalida, o valor da aposta deve ser maior que 0!");
@@ -209,7 +210,7 @@ public class Campeonato implements Serializable{
         String aux = "";
         int cont = 0;
 
-        if(qntJogadores > 0){
+        if(qntJogadores > 0){ //verifica se existem jogadores registrados
             System.out.println("\nInsira o tipo desejado para imprimir os saldos [H para Humano, M para maquina ou T para Todos]: ");
             try{
                 do{
@@ -222,26 +223,26 @@ public class Campeonato implements Serializable{
             }
 
             for(int i = 0; i < qntJogadores; i++){
-                if(aux.charAt(0) == 'H'){
-                    if(jogadores[i] instanceof Humano){
+                if(aux.charAt(0) == 'H'){ //imprime saldos para jogadores do tipo Humano
+                    if(jogadores[i] instanceof Humano){ //polimorfismo
                         System.out.println("\nJogador [H]: " + jogadores[i].getNome() + ", Saldo: " + String.format("%.2f", jogadores[i].getSaldo()));
                         cont++;
                     }
                     else
-                        if(cont == 0 && i == qntJogadores - 1)
+                        if(cont == 0 && i == qntJogadores - 1) //caso o contador esteja zerado, significa que nenhum jogador do vetor era Humano
                             System.out.println("\nNao existem jogadores humanos registrados");
                 }
-                else if(aux.charAt(0) == 'M'){
-                    if(jogadores[i] instanceof Maquina){
+                else if(aux.charAt(0) == 'M'){ //imprime saldos para jogadores do tipo Maquina
+                    if(jogadores[i] instanceof Maquina){ //polimorfismo
                         System.out.println("\nJogador [M]: " + jogadores[i].getNome() + ", Saldo: " + String.format("%.2f", jogadores[i].getSaldo()));
                         cont++;
                     }
                     else
-                        if(cont == 0 && i == qntJogadores - 1)
+                        if(cont == 0 && i == qntJogadores - 1) //caso o contador esteja zerado, significa que nenhum jogador do vetor era Maquina
                             System.out.println("\nNao existem jogadores maquina registrados");
                 }
-                else if(aux.charAt(0) == 'T'){
-                    if(jogadores[i] instanceof Humano)
+                else if(aux.charAt(0) == 'T'){ //imprime saldos para ambos os tipos de jogadores
+                    if(jogadores[i] instanceof Humano) //polimorfismo
                         System.out.println("\nJogador [H]: " + jogadores[i].getNome() + ", Saldo: " + String.format("%.2f", jogadores[i].getSaldo()));
                     else
                         System.out.println("\nJogador [M]: " + jogadores[i].getNome() + ", Saldo: " + String.format("%.2f", jogadores[i].getSaldo()));
@@ -257,7 +258,7 @@ public class Campeonato implements Serializable{
         String tipoJogo = "", tipoJogador = "";
         int contJ = 0, contG = 0;
 
-        if(qntJogadores > 0){
+        if(qntJogadores > 0){ //verifica se existem jogadores registrados
             System.out.print("\nPara qual tipo de jogo deseja imprimir os extratos? [G para Jogo General, A para Jogo de Azar ou T para Todos]: ");
             try{
                 do{
@@ -281,13 +282,13 @@ public class Campeonato implements Serializable{
             }
 
             for(int i = 0; i < qntJogadores; i++){
-                if(tipoJogador.charAt(0) == 'H'){
-                    if(jogadores[i] instanceof Humano){
+                if(tipoJogador.charAt(0) == 'H'){ //imprime extratos para jogadores do tipo Humano
+                    if(jogadores[i] instanceof Humano){ //polimorfismo
                         System.out.println("\nJogador [H]: " + jogadores[i].getNome());
                         contJ++;
                         for(int j = 0; j < jogadores[i].getNJogo(); j++){
-                            if(tipoJogo.charAt(0) == 'G'){
-                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                            if(tipoJogo.charAt(0) == 'G'){ //imprime extratos de JogoGeneral
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){ //polimorfismo
                                     JogoGeneral auxG = (JogoGeneral) jogadores[i].getJogo(j);
                                     if(auxG.getResultado() == 1){
                                         System.out.println("[Jogo General] Valor apostado: R$" + String.format("%.2f", String.format("%.2f", auxG.getAposta())) + ", Resultado da jogada: Ganhou");
@@ -299,11 +300,11 @@ public class Campeonato implements Serializable{
                                     }
                                 }
                                 else
-                                    if(contG == 0 && j == jogadores[i].getNJogo() - 1)
+                                    if(contG == 0 && j == jogadores[i].getNJogo() - 1) //contador zerado significa que nenhum jogo era do tipo JogoGeneral
                                         System.out.println("O jogador nao fez nenhum Jogo General");
                             }
-                            else if(tipoJogo.charAt(0) == 'A'){
-                                if(jogadores[i].getJogo(j) instanceof JogoAzar){
+                            else if(tipoJogo.charAt(0) == 'A'){ //imprime extratos de JogoAzar
+                                if(jogadores[i].getJogo(j) instanceof JogoAzar){ //polimorfismo
                                     JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
                                     if(auxA.getResultado() == 1){
                                         System.out.println("[Jogo de Azar] Valor apostado: R$" + String.format("%.2f", String.format("%.2f", auxA.getAposta())) + ", Resultado da Jogada: Ganhou");
@@ -315,11 +316,11 @@ public class Campeonato implements Serializable{
                                     }
                                 }
                                 else
-                                    if(contG == 0 && j == jogadores[i].getNJogo() - 1)
+                                    if(contG == 0 && j == jogadores[i].getNJogo() - 1) //contador zerado significa que nenhum jogo era do tipo JogoAzar
                                         System.out.println("O jogador nao fez nenhum Jogo de Azar");
                             }
-                            else if(tipoJogo.charAt(0) == 'T'){
-                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                            else if(tipoJogo.charAt(0) == 'T'){ //imprime extratos para ambos os tipos de jogos
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){ //polimorfismo
                                     JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j);
                                     if(auxG.getResultado() == 1)
                                         System.out.println("[Jogo General] Valor apostado: R$" + String.format("%.2f", auxG.getAposta()) + ", Resultado da Jogada: Ganhou");
@@ -340,13 +341,13 @@ public class Campeonato implements Serializable{
                         if(contJ == 0 && i == qntJogadores - 1)
                             System.out.println("\nNao existem jogadores humanos registrados");
                 }
-                else if(tipoJogador.charAt(0) == 'M'){
-                    if(jogadores[i] instanceof Maquina){
+                else if(tipoJogador.charAt(0) == 'M'){ //imprime extratos para jogadores do tipo Maquina
+                    if(jogadores[i] instanceof Maquina){ //polimorfismo
                         System.out.println("\nJogador [M]: " + jogadores[i].getNome());
                         contJ++;
                         for(int j = 0; j < jogadores[i].getNJogo(); j++){
                             if(tipoJogo.charAt(0) == 'G'){
-                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){ //polimorfismo
                                     JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j); 
                                     if(auxG.getResultado() == 1){
                                         System.out.println("[Jogo General] Valor apostado: R$" + String.format("%.2f", auxG.getAposta()) + ", Resultado da jogada: Ganhou");
@@ -362,7 +363,7 @@ public class Campeonato implements Serializable{
                                         System.out.println("O jogador nao fez nenhum Jogo General");
                             }
                             else if(tipoJogo.charAt(0) == 'A'){
-                                if(jogadores[i].getJogo(j) instanceof JogoAzar){
+                                if(jogadores[i].getJogo(j) instanceof JogoAzar){ //polimorfismo
                                     JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
                                     if(auxA.getResultado() == 1){
                                         System.out.println("[Jogo de Azar] Valor apostado: R$" + String.format("%.2f", auxA.getAposta()) + ", Resultado da Jogada: Ganhou");
@@ -378,7 +379,7 @@ public class Campeonato implements Serializable{
                                         System.out.println("O jogador nao fez nenhum Jogo de Azar");
                             }
                             else if(tipoJogo.charAt(0) == 'T'){
-                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){ //polimorfismo
                                     JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j);
                                     if(auxG.getResultado() == 1)
                                         System.out.println("[Jogo General] Valor apostado: R$" + String.format("%.2f", auxG.getAposta()) + ", Resultado da Jogada: Ganhou");
@@ -399,14 +400,14 @@ public class Campeonato implements Serializable{
                         if(contJ == 0 && i == qntJogadores -1)
                             System.out.println("\nNao existem jogadores maquina registrados");
                 }
-                else if(tipoJogador.charAt(0) == 'T'){
+                else if(tipoJogador.charAt(0) == 'T'){ //imprime extratos para jogadores de ambos os tipos
                     contG = 0;
-                    if(jogadores[i] instanceof Humano){
+                    if(jogadores[i] instanceof Humano){ //polimorfismo
                         System.out.println("\nJogador [H]: " + jogadores[i].getNome());
 
                         for(int j = 0; j < jogadores[i].getNJogo(); j++){
                             if(tipoJogo.charAt(0) == 'G'){
-                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){ //polimorfismo
                                     JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j);
                                     if(auxG.getResultado() == 1){
                                         System.out.println("[Jogo General] Valor apostado: R$" + String.format("%.2f", auxG.getAposta()) + ", Resultado da jogada: Ganhou");
@@ -422,7 +423,7 @@ public class Campeonato implements Serializable{
                                         System.out.println("O jogador nao fez nenhum Jogo General");
                             }
                             else if(tipoJogo.charAt(0) == 'A'){
-                                if(jogadores[i].getJogo(j) instanceof JogoAzar){
+                                if(jogadores[i].getJogo(j) instanceof JogoAzar){ //polimorfismo
                                     JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
                                     if(auxA.getResultado() == 1){
                                         System.out.println("[Jogo de Azar] Valor apostado: R$" + String.format("%.2f", auxA.getAposta()) + ", Resultado da Jogada: Ganhou");
@@ -438,14 +439,14 @@ public class Campeonato implements Serializable{
                                         System.out.println("O jogador nao fez nenhum Jogo de Azar");
                             }
                             else if(tipoJogo.charAt(0) == 'T'){
-                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){ //polimorfismo
                                     JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j);
                                     if(auxG.getResultado() == 1)
                                         System.out.println("[Jogo General] Valor apostado: R$" + String.format("%.2f", auxG.getAposta()) + ", Resultado da Jogada: Ganhou");
                                     else
                                         System.out.println("[Jogo General] Valor apostado: R$" + String.format("%.2f", auxG.getAposta()) + ", Resultado da jogada: Perdeu");
                                 }
-                                else if(jogadores[i].getJogo(j) instanceof JogoAzar){
+                                else if(jogadores[i].getJogo(j) instanceof JogoAzar){ //polimorfismo
                                     JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
                                     if(auxA.getResultado() == 1)
                                         System.out.println("[Jogo de Azar] Valor apostado: R$" + String.format("%.2f", auxA.getAposta()) + ", Resultado da Jogada: Ganhou");
@@ -463,7 +464,7 @@ public class Campeonato implements Serializable{
 
                         for(int j = 0; j < jogadores[i].getNJogo(); j++){
                             if(tipoJogo.charAt(0) == 'G'){
-                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){  //polimorfismo
                                     JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j);
                                     if(auxG.getResultado() == 1){
                                         System.out.println("[Jogo General] Valor apostado: R$" + String.format("%.2f", auxG.getAposta()) + ", Resultado da jogada: Ganhou");
@@ -479,7 +480,7 @@ public class Campeonato implements Serializable{
                                         System.out.println("O jogador nao fez nenhum Jogo General");
                             }
                             else if(tipoJogo.charAt(0) == 'A'){
-                                if(jogadores[i].getJogo(j) instanceof JogoAzar){
+                                if(jogadores[i].getJogo(j) instanceof JogoAzar){ //polimorfismo
                                     JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
                                     if(auxA.getResultado() == 1){
                                         System.out.println("[Jogo de Azar] Valor apostado: R$" + String.format("%.2f", auxA.getAposta()) + ", Resultado da Jogada: Ganhou");
@@ -495,14 +496,14 @@ public class Campeonato implements Serializable{
                                         System.out.println("O jogador nao fez nenhum Jogo de Azar");
                             }
                             else if(tipoJogo.charAt(0) == 'T'){
-                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){
+                                if(jogadores[i].getJogo(j) instanceof JogoGeneral){ //polimorfismo
                                     JogoGeneral auxG = (JogoGeneral)jogadores[i].getJogo(j);
                                     if(auxG.getResultado() == 1)
                                         System.out.println("[Jogo General] Valor apostado: R$" + String.format("%.2f", auxG.getAposta()) + ", Resultado da Jogada: Ganhou");
                                     else
                                         System.out.println("[Jogo General] Valor apostado: R$" + String.format("%.2f", auxG.getAposta()) + ", Resultado da jogada: Perdeu");
                                 }
-                                else if(jogadores[i].getJogo(j) instanceof JogoAzar){
+                                else if(jogadores[i].getJogo(j) instanceof JogoAzar){ //polimorfismo
                                     JogoAzar auxA = (JogoAzar)jogadores[i].getJogo(j);
                                     if(auxA.getResultado() == 1)
                                         System.out.println("[Jogo de Azar] Valor apostado: R$" + String.format("%.2f", auxA.getAposta()) + ", Resultado da Jogada: Ganhou");
@@ -530,7 +531,7 @@ public class Campeonato implements Serializable{
         JogoDados auxJD;
         int[] statTotal = new int[6];
 
-        if(qntJogadores > 0){
+        if(qntJogadores > 0){ //verifica se existem jogadores registrados
             System.out.print("\nComo deseja imprimir as estatisticas? [1] Por tipo de jogador, [2] Por tipo de jogo de cada jogador, [3] Total por jogos, [4] Total do Campeonato: ");
             try{
                 do{
@@ -543,7 +544,7 @@ public class Campeonato implements Serializable{
             }
 
             switch(opcao){
-                case 1 :
+                case 1 : //estatisticas por tipo de jogador
                     System.out.println("\nPara qual tipo de jogador deseja imprimir? [H para Humano ou M para Maquina]: ");
                     try{
                         do{
@@ -557,10 +558,10 @@ public class Campeonato implements Serializable{
 
                     int[] statJogador = new int[6];
 
-                    if(tipoJogador.charAt(0) == 'H'){
+                    if(tipoJogador.charAt(0) == 'H'){ //imprime as estatisticas para jogadores do tipo Humano
                         System.out.println("\nEstatisticas para jogadores humanos: ");
                         for(int i = 0; i < qntJogadores; i++){
-                            if(jogadores[i] instanceof Humano){
+                            if(jogadores[i] instanceof Humano){ //polimorfismo
                                 for(int j = 0; j < jogadores[i].getNJogo(); j++){
                                     auxJD = jogadores[i].getJogo(j);
                                     for(int k = 0; k < auxJD.getStatDados().length; k++){
@@ -574,10 +575,10 @@ public class Campeonato implements Serializable{
                         }
                     }
 
-                    if(tipoJogador.charAt(0) == 'M'){
+                    if(tipoJogador.charAt(0) == 'M'){ //imprime as estatisticas para jogadores do tipo Maquina
                         System.out.println("\nEstatisticas para jogadores maquinas: ");
                         for(int i = 0; i < qntJogadores; i++){
-                            if(jogadores[i] instanceof Maquina){
+                            if(jogadores[i] instanceof Maquina){ //polimorfismo
                                 for(int j = 0; j < jogadores[i].getNJogo(); j++){
                                     auxJD = jogadores[i].getJogo(j);
                                     for(int k = 0; k < auxJD.getStatDados().length; k++){
@@ -595,7 +596,7 @@ public class Campeonato implements Serializable{
                         System.out.println(k+1 + ": " + statJogador[k]);
                     }
                     break;
-                case 2 :
+                case 2 : //imprime estatisticas por tipo de jogo de cada jogador
                     for(int i = 0; i < qntJogadores; i++){
                         int[] statJG = new int[6];
                         int[] statJA = new int[6];
@@ -603,7 +604,7 @@ public class Campeonato implements Serializable{
                         System.out.println("\nJogador: " + jogadores[i].getNome());
                         for(int j = 0; j < jogadores[i].getNJogo(); j++){
                             auxJD = jogadores[i].getJogo(j);
-                            if(auxJD instanceof JogoGeneral){
+                            if(auxJD instanceof JogoGeneral){ //polimorfismo
                                 for(int k = 0; k < auxJD.getStatDados().length; k++){
                                     statJG[k] += auxJD.getStatDados()[k];
                                 }
@@ -624,14 +625,14 @@ public class Campeonato implements Serializable{
                         }
                     }
                     break;
-                case 3 :
+                case 3 : //imprime estatisticas totais por tipo de jogo
                     int[] statJG = new int[6];
                     int[] statJA = new int[6];
 
                     for(int i = 0; i < qntJogadores; i++){
                         for(int j = 0; j < jogadores[i].getNJogo(); j++){
                             auxJD = jogadores[i].getJogo(j);
-                            if(auxJD instanceof JogoGeneral){
+                            if(auxJD instanceof JogoGeneral){ //polimorfismo
                                 for(int k = 0; k < auxJD.getStatDados().length; k++){
                                     statJG[k] += auxJD.getStatDados()[k];
                                 }
@@ -652,7 +653,7 @@ public class Campeonato implements Serializable{
                         System.out.println(k+1 + ": " + statJA[k]);
                     }
                     break;
-                case 4 :
+                case 4 : //imprime estatisticas totais do campeonato
                     System.out.println("\nEstatisticas totais do campeonato: ");
                     for(int i = 0; i< qntJogadores; i++){
                         for(int j = 0; j < jogadores[i].getNJogo(); j++){
@@ -674,6 +675,8 @@ public class Campeonato implements Serializable{
         
     }
 
+
+    //métodos para gravação e leitura de arquivos
     public void gravarEmArquivo(Campeonato camp){
         try{
             FileOutputStream fout = new FileOutputStream(file);

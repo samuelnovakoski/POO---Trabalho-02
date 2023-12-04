@@ -4,6 +4,7 @@ public class JogoGeneral extends JogoDados{
     private int valoresJogadas[];
     private int resultado;
 
+    //construtor chamando o construtor herdado da superclasse
     public JogoGeneral(){
         super("JogoGeneral", 5);
 
@@ -13,10 +14,12 @@ public class JogoGeneral extends JogoDados{
             valoresJogadas[i] = -1;
     }
 
+    //retorna o vetor de jogadas
     public int[] getJogadas(){
         return valoresJogadas;
     }
 
+    //retorna uma jogada especifica
     public int getJogadas(int pos){
         return valoresJogadas[pos];
     }
@@ -25,7 +28,7 @@ public class JogoGeneral extends JogoDados{
         Scanner scan = new Scanner(System.in);
 
         try{
-            while(jogada < 1 || jogada > 13 || valoresJogadas[jogada -1] != -1){
+            while(jogada < 1 || jogada > 13 || valoresJogadas[jogada -1] != -1){ //verifica se a jogada escolhida é valida (está entre 1 e 13 e nao foi repetida)
                 if(jogada < 1 || jogada > 13)
                     System.out.println("Jogada invalida! Por favor insira uma jogada valida [1 - 13]");
                 else if(valoresJogadas[jogada - 1] != -1)
@@ -35,13 +38,14 @@ public class JogoGeneral extends JogoDados{
             }
 
             pontuarJogada(jogada);
-        }catch(java.util.InputMismatchException e){
+        }catch(java.util.InputMismatchException e){ //tratamento de erros
             System.out.println("Insira apenas numeros inteiros");
         }catch(Exception e){
             System.out.println("erro: " + e);
         }
     }
 
+    //pontua a jogada de acordo com as regras do jogo general
     public void pontuarJogada(int jogada){
         resultado = 0;
 
@@ -213,6 +217,7 @@ public class JogoGeneral extends JogoDados{
         System.out.println("\n");
     }
 
+    //verifica se a soma das 12 primeiras jogadas é maior do que o dobro da última rodada
     public void ganhou(){
         int soma12 = 0;
 

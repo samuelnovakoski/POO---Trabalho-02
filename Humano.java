@@ -6,6 +6,7 @@ public class Humano extends Jogador implements JogarComoHumano{
     private String conta;
     private int numBanco;
 
+    //construtor chamando o construtor herdado da superclasse
     public Humano(String nome, String cpf, String agencia, String conta, int numBanco){
         super(nome);
         this.cpf = cpf;
@@ -14,6 +15,7 @@ public class Humano extends Jogador implements JogarComoHumano{
         this.numBanco = numBanco;
     }
 
+    //implementação do método da interface JogarComoHumano: escolhe entre JogoGeneral ou JogoAzar (Herança Múltipla)
     public int escolherJogo(){
         Scanner scan = new Scanner(System.in);
         int jogo = -1;
@@ -34,6 +36,7 @@ public class Humano extends Jogador implements JogarComoHumano{
         return jogo;
     }
 
+    //implementação do método da interface JogarComoHumano: escolhe uma jogada para o JogoGeneral (Herança Múltipla)
     public int escolherJogada(JogoGeneral jogo){
         Scanner scan = new Scanner(System.in);
         int jogada = -1;
